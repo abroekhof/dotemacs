@@ -204,7 +204,7 @@
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
     (add-hook 'org-mode-hook 'flyspell-mode))
 #+END_SRC
-
+  
 * Syntax checking
 
 #+BEGIN_SRC emacs-lisp
@@ -222,6 +222,7 @@
     :init (global-anzu-mode 1)
     :ensure t)
 #+END_SRC
+
 * Undo tree
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
@@ -232,6 +233,14 @@
     :ensure t)
 #+END_SRC
 * Version control
+** Magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :bind ("C-x g" . magit-status)
+    :ensure t
+    )
+#+END_SRC
+
 ** Highlight diffs
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
