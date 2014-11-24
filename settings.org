@@ -69,7 +69,7 @@
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
-
+   
 ** Smart Parentheses
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens-config
@@ -314,4 +314,11 @@
            ("C-s"   . helm-swoop)
            ("C-r"   . helm-resume))
     :ensure t)
+#+END_SRC
+* Company 
+#+BEGIN_SRC emacs-lisp
+  (use-package company-mode
+    :init (progn(add-hook 'after-init-hook 'global-company-mode)
+           (add-to-list 'company-backends 'company-ispell))
+    :ensure company)
 #+END_SRC
