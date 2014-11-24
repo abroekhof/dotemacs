@@ -128,6 +128,11 @@
     :ensure t)
 #+END_SRC
 
+** Save desktop
+#+BEGIN_SRC emacs-lisp
+  (desktop-save-mode 1)
+#+END_SRC
+
 * UI settings
 ** Turn off the scroll bar and the tool bar
 #+BEGIN_SRC emacs-lisp
@@ -189,7 +194,7 @@
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
 #+END_SRC
-
+?
 * Spelling
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
@@ -254,8 +259,21 @@
     :init (global-diff-hl-mode)
     :ensure t)
 #+END_SRC
+* Projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :commands (projectile-global-mode projectile-ignored-projects projectile-compile-project)
+    :init (progn
+            (projectile-global-mode))
+           
+    :config (progn
+              (setq projectile-completion-system 'helm)
+              (setq projectile-switch-project-action 'helm-projectile)
+              )
+    :ensure t)
+#+END_SRC
 * Helm
-
+** Helm configurations
 #+BEGIN_SRC emacs-lisp
   (use-package helm
     :bind (("M-x"     . helm-M-x)
@@ -266,15 +284,34 @@
            ("C-h f" . helm-apropos)
            ("C-h r" . helm-info-emacs)
            ("C-h C-l" . helm-locate-library))
-    
+      
     :init (progn
             (use-package helm-config)
+            (use-package helm-projectile
+              :init (helm-projectile-on)
+              :ensure t)
+            (use-package helm-descbinds
+              :init (helm-descbinds-mode)
+              :ensure t)
             (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
                   helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
                   helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
                   helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
                   helm-ff-file-name-history-use-recentf t)
-            (helm-mode +1))
+            (helm-mode +1)
+            (define-key helm-command-map (kbd "o")     'helm-occur)
+            (define-key helm-command-map (kbd "g")     'helm-do-grep)
+            (define-key helm-command-map (kbd "C-c w") 'helm-wikipedia-suggest)
+            (define-key helm-command-map (kbd "SPC")   'helm-all-mark-rings))
     :ensure t)
+#+END_SRC
 
+** Helm swoop
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-swoop
+    :bind (("C-c C-SPC" . helm-swoop)
+           ("C-c o" . helm-multi-swoop-all)
+           ("C-s"   . helm-swoop)
+           ("C-r"   . helm-resume))
+    :ensure t)
 #+END_SRC

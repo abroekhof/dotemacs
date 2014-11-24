@@ -7,3 +7,6 @@
 /settings.el
 /settings.org~
 /.mc-lists.el
+/.emacs.desktop
+/.emacs.desktop.lock
+/projectile-bookmarks.eld
