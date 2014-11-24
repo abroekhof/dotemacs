@@ -1,5 +1,4 @@
 * Initialization
-
 ** Make sure Emacs uses the shell PATH
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
@@ -8,12 +7,6 @@
     )
 #+END_SRC
     
-* Global key bindings
-** Use hippie-expand instead of dabbrev
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "M-/") 'hippie-expand)
-#+END_SRC
-
 * Editor behavior
 ** Get rid of tabs
 #+BEGIN_SRC emacs-lisp
@@ -41,16 +34,18 @@
 
 ** Hippie expand settings
 #+BEGIN_SRC emacs-lisp
-  (setq hippie-expand-try-functions-list '(try-expand-dabbrev
-                                           try-expand-dabbrev-all-buffers
-                                           try-expand-dabbrev-from-kill
-                                           try-complete-file-name-partially
-                                           try-complete-file-name
-                                           try-expand-all-abbrevs
-                                           try-expand-list
-                                           try-expand-line
-                                           try-complete-lisp-symbol-partially
-                                           try-complete-lisp-symbol))
+  (use-package hippie-expand
+    :bind ("M-/" . hippie-expand)
+    :init (setq hippie-expand-try-functions-list '(try-expand-dabbrev
+                                                   try-expand-dabbrev-all-buffers
+                                                   try-expand-dabbrev-from-kill
+                                                   try-complete-file-name-partially
+                                                   try-complete-file-name
+                                                   try-expand-all-abbrevs
+                                                   try-expand-list
+                                                   try-expand-line
+                                                   try-complete-lisp-symbol-partially
+                                                   try-complete-lisp-symbol)))
 #+END_SRC
 
 ** Smart tab behavior - indent or complete
