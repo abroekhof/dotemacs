@@ -187,14 +187,17 @@
 #+END_SRC
 
 ** Clean up obsolete buffers automatically
+#+BEGIN_SRC emacs-lisp
 (require 'midnight)
+#+END_SRC
+
 * Org settings
 ** Make sure that code is highlighted properly in org files
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
 #+END_SRC
-?
+
 * Spelling
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
