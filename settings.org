@@ -232,6 +232,7 @@
                 (global-undo-tree-mode))
     :ensure t)
 #+END_SRC
+
 * Version control
 ** Magit
 #+BEGIN_SRC emacs-lisp
@@ -246,4 +247,28 @@
   (use-package diff-hl
     :init (global-diff-hl-mode)
     :ensure t)
+#+END_SRC
+* Helm
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :bind (("M-x"     . helm-M-x)
+           ("C-x C-f" . helm-find-files)
+           ("M-y" . helm-show-kill-ring)
+           ("C-x b" . helm-mini)
+           ("C-x C-f" . helm-find-files)
+           ("C-h f" . helm-apropos)
+           ("C-h r" . helm-info-emacs)
+           ("C-h C-l" . helm-locate-library))
+    
+    :init (progn
+            (use-package helm-config)
+            (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+                  helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
+                  helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+                  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+                      helm-ff-file-name-history-use-recentf t)
+                (helm-mode +1))
+        :ensure t)
+
 #+END_SRC
