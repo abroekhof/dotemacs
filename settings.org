@@ -198,7 +198,8 @@
   (use-package flyspell
     :defer t
     :idle (flyspell-setup)
-    :init (setq ispell-program-name "aspell")
+    :init (setq ispell-program-name "aspell" ; use aspell instead of ispell
+	      ispell-extra-args '("--sug-mode=ultra"))
     :ensure t)
 
   (defun flyspell-setup ()
@@ -313,10 +314,13 @@
            ("C-r"   . helm-resume))
     :ensure t)
 #+END_SRC
-* Company 
+* Company
 #+BEGIN_SRC emacs-lisp
-  (use-package company-mode
-    :init (progn(add-hook 'after-init-hook 'global-company-mode)
-           (add-to-list 'company-backends 'company-ispell))
-    :ensure company)
+  (use-package company
+    :config (progn(setq company-idle-delay 0.5)
+                  (setq company-tooltip-limit 10)
+                  (setq company-minimum-prefix-length 2)
+                  (setq company-tooltip-flip-when-above t)
+                  (add-hook 'after-init-hook 'global-company-mode))
+    :ensure t)
 #+END_SRC
