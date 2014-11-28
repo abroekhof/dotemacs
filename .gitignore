@@ -10,3 +10,5 @@
 /.emacs.desktop
 /.emacs.desktop.lock
 /projectile-bookmarks.eld
+/backups/
+/savehist
