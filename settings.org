@@ -6,13 +6,12 @@
     :ensure t
     )
 #+END_SRC
-
 * Editor behavior
 ** Get rid of tabs
-#+BEGIN_SRC emacs-lisp
-  (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
-  (setq-default tab-width 8)            ;; but maintain correct appearance
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
+     (setq-default tab-width 8)            ;; but maintain correct appearance
+   #+END_SRC
 
 ** Delete the selection with a keypress
 #+BEGIN_SRC emacs-lisp
@@ -25,7 +24,8 @@
 
 ** Hippie expand settings
 #+BEGIN_SRC emacs-lisp
-  (use-package hippie-expand
+  (use-package hippie-exp
+    :ensure t
     :bind ("M-/" . hippie-expand)
     :init (setq hippie-expand-try-functions-list '(try-expand-dabbrev
                                                    try-expand-dabbrev-all-buffers
@@ -152,9 +152,9 @@
   )
 #+END_SRC
 
-** Turn off blinking cursor
+** Turn on blinking cursor
 #+BEGIN_SRC emacs-lisp
-  (blink-cursor-mode -1)
+  (blink-cursor-mode t)
 #+END_SRC
 
 ** Highlight current line
@@ -193,7 +193,7 @@
 #+BEGIN_SRC emacs-lisp
 (require 'midnight)
 #+END_SRC
-
+  
 * Org settings
 ** Make sure that code is highlighted properly in org files
 #+BEGIN_SRC emacs-lisp
@@ -330,5 +330,15 @@
                   (setq company-minimum-prefix-length 2)
                   (setq company-tooltip-flip-when-above t)
                   (add-hook 'after-init-hook 'global-company-mode))
+    :ensure t)
+#+END_SRC
+* Guide key
+#+BEGIN_SRC emacs-lisp
+  (use-package guide-key
+    :diminish guide-key-mode
+    :init (guide-key-mode 1)
+    :config (setq guide-key/guide-key-sequence
+                  '("C-x"(projectile-mode "C-c p"))
+                  guide-key/recursive-key-sequence-flag t)
     :ensure t)
 #+END_SRC
