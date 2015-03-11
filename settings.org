@@ -300,7 +300,7 @@
             (use-package helm-descbinds
               :init (helm-descbinds-mode)
               :ensure t)
-            (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+            (setq helm-split-window-in-side-p           nil ; open helm buffer inside current window, not occupy whole other window
                   helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
                   helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
                   helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
@@ -357,4 +357,32 @@
 (use-package company-anaconda
   :ensure company-anaconda
   :init (add-to-list 'company-backends 'company-anaconda))
+#+END_SRC
+* Javascript (js2-mode)
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :mode "\\.js\\'"
+    :ensure t)
+#+END_SRC
+
+* Web mode
+#+BEGIN_SRC emacs-lisp
+(use-package web-mode
+  :ensure t
+  :mode (("\\.phtml\\'" . web-mode) ("\\.erb\\'" . web-mode)
+         ("\\.jsp\\'" . web-mode) ("\\.as[cp]x\\'" . web-mode)
+         ("\\.erb\\'" . web-mode) ("\\.html\\'" . web-mode)
+         ("\\.rhtml\\'" . web-mode) ("\\.mustache\\'" . web-mode))
+    :config
+  (progn
+    (bind-key "C-c ;" 'web-mode-comment-or-uncomment web-mode-map)
+    (unbind-key "C-c C-p" web-mode-map)
+    (unbind-key "C-c C-n" web-mode-map)))
+#+END_SRC
+
+* Package list
+#+BEGIN_SRC emacs-lisp
+  (use-package paradox
+    :ensure t
+  )
 #+END_SRC
