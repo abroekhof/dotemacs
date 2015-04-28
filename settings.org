@@ -6,6 +6,7 @@
     :ensure t
     )
 #+END_SRC
+
 * Editor behavior
 ** Get rid of tabs
    #+BEGIN_SRC emacs-lisp
@@ -17,6 +18,7 @@
 #+BEGIN_SRC emacs-lisp
   (delete-selection-mode t)
 #+END_SRC
+
 ** Revert buffers automatically when underlying files are changed externally
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
@@ -205,9 +207,9 @@
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
     :defer t
-    :idle (flyspell-setup)
     :init (setq ispell-program-name "aspell" ; use aspell instead of ispell
-	      ispell-extra-args '("--sug-mode=ultra"))
+              ispell-extra-args '("--sug-mode=ultra"))
+    :config (flyspell-setup)
     :ensure t)
 
   (defun flyspell-setup ()
@@ -251,6 +253,7 @@
     :bind ("C-x o" . switch-window)
     :ensure t)
 #+END_SRC
+
 * Version control
 ** Magit
 #+BEGIN_SRC emacs-lisp
@@ -266,6 +269,7 @@
     :init (global-diff-hl-mode)
     :ensure t)
 #+END_SRC
+
 * Projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -279,6 +283,7 @@
               )
     :ensure t)
 #+END_SRC
+
 * Helm
 ** Helm configurations
 #+BEGIN_SRC emacs-lisp
