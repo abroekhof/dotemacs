@@ -98,7 +98,7 @@
   (use-package savehist
     :init
     (progn
-      (setq savehist-file "savehist")
+      (setq savehist-file "~/emacs.d/savehist")
       (setq savehist-additional-variables '(search-ring regexp-search-ring)
             savehist-autosave-interval 60
             history-length t
@@ -148,9 +148,9 @@
 
 ** Use a nice theme
 #+BEGIN_SRC emacs-lisp
-  (use-package color-theme-sanityinc-tomorrow
+  (use-package zenburn-theme
     :ensure t
-    :config (load-theme 'sanityinc-tomorrow-eighties t)
+    :config (load-theme 'zenburn t)
   )
 #+END_SRC
 
