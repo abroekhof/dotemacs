@@ -127,10 +127,10 @@
 
 ** Volatile highlights
 #+BEGIN_SRC emacs-lisp
-  (use-package volatile-highlights
-    :init (volatile-highlights-mode t)
-    :diminish volatile-highlights-mode
-    :ensure t)
+(use-package volatile-highlights
+  :ensure t
+  :commands volatile-highlights-mode
+  :init (volatile-highlights-mode t))
 #+END_SRC
 
 ** Save desktop
@@ -183,9 +183,9 @@ Taken from the Spacemacs OSX module
 
 ** Use a nice theme
 #+BEGIN_SRC emacs-lisp
-  (use-package zenburn-theme
+  (use-package leuven-theme
     :ensure t
-    :config (load-theme 'zenburn t)
+    :config (load-theme 'leuven t)
   )
 #+END_SRC
 
@@ -214,10 +214,12 @@ Taken from the Spacemacs OSX module
 #+END_SRC
 
 ** Diminish
+
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :ensure t)
 #+END_SRC
+
 ** Rainbow delimiters
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
@@ -287,6 +289,9 @@ Taken from the Spacemacs OSX module
   (use-package switch-window
     :bind ("C-x o" . switch-window)
     :ensure t)
+
+  (use-package windmove
+    :config (windmove-default-keybindings 'shift))
 #+END_SRC
 
 * Version control
@@ -330,7 +335,8 @@ Taken from the Spacemacs OSX module
            ("C-x b" . helm-mini)
            ("C-h f" . helm-apropos)
            ("C-h r" . helm-info-emacs)
-           ("C-h C-l" . helm-locate-library))
+           ("C-h C-l" . helm-locate-library)
+           ("C-h SPC" . helm-all-mark-rings))
       
     :init (progn
             (use-package helm-config)
@@ -349,7 +355,11 @@ Taken from the Spacemacs OSX module
             (define-key helm-command-map (kbd "o")     'helm-occur)
             (define-key helm-command-map (kbd "g")     'helm-do-grep)
             (define-key helm-command-map (kbd "C-c w") 'helm-wikipedia-suggest)
-            (define-key helm-command-map (kbd "SPC")   'helm-all-mark-rings))
+            (define-key helm-command-map (kbd "SPC")   'helm-all-mark-rings)
+            (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+            (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+            (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+            )
     :ensure t)
 #+END_SRC
 
@@ -363,6 +373,7 @@ Taken from the Spacemacs OSX module
     :ensure t)
 #+END_SRC
 * Company
+
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :config (progn(setq company-idle-delay 0.5)
@@ -372,6 +383,7 @@ Taken from the Spacemacs OSX module
                   (add-hook 'after-init-hook 'global-company-mode))
     :ensure t)
 #+END_SRC
+
 * Guide key
 #+BEGIN_SRC emacs-lisp
   (use-package guide-key
@@ -383,21 +395,34 @@ Taken from the Spacemacs OSX module
     :ensure t)
 #+END_SRC
 
-* Anaconda
+* Python
 #+BEGIN_SRC emacs-lisp
 
-(use-package anaconda-mode
-  :ensure anaconda-mode
-  :commands anaconda-mode
-  :init
-  (progn
-    (add-hook 'python-mode-hook 'anaconda-mode)
-    (add-hook 'python-mode-hook 'eldoc-mode)))
+    (use-package anaconda-mode
+      :ensure anaconda-mode
+      :commands anaconda-mode
+      :init
+      (progn
+        (add-hook 'python-mode-hook 'anaconda-mode)
+        (add-hook 'python-mode-hook 'eldoc-mode)))
 
-(use-package company-anaconda
-  :ensure company-anaconda
-  :init (add-to-list 'company-backends 'company-anaconda))
+    (use-package company-anaconda
+      :ensure company-anaconda
+      :init (add-to-list 'company-backends 'company-anaconda))
+
+    (use-package virtualenvwrapper
+      :ensure t
+      :commands (venv-workon venv-deactivate venv-initialize-interactive-shells venv-initialize-eshell)
+      :config
+      (message "virtualenvwrapper loaded")
+      :init
+      (progn
+        (venv-initialize-interactive-shells) 
+        (venv-initialize-eshell)
+        (setq venv-location "~/.virtualenvs")))
+
 #+END_SRC
+
 * Javascript (js2-mode)
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
@@ -421,8 +446,10 @@ Taken from the Spacemacs OSX module
 #+END_SRC
 
 * Package list
+
 #+BEGIN_SRC emacs-lisp
   (use-package paradox
     :ensure t
   )
 #+END_SRC
+
