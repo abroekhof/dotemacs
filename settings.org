@@ -106,6 +106,7 @@
             savehist-save-minibuffer-history 1)
       (savehist-mode +1)))
 #+END_SRC
+
 ** Backups
    Borrowed from Sacha Chua
    https://github.com/sachac/.emacs.d/
@@ -160,8 +161,10 @@ Taken from the Spacemacs OSX module
     (setq mac-command-key-is-meta nil)
     (setq mac-command-modifier 'super)
     (setq mac-option-modifier 'meta))
+#+END_SRC
 
-    ;; Keybindings
+Use Super to get modern-style keybindings.
+#+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-q") 'save-buffers-kill-terminal)
   (global-set-key (kbd "s-v") 'yank)
   (global-set-key (kbd "s-c") 'kill-ring-save)
@@ -173,9 +176,10 @@ Taken from the Spacemacs OSX module
 #+END_SRC
 
 * UI settings
-** Turn off the scroll bar and the tool bar
+** Turn off the scroll bar and the tool bar and the menu bar.
 #+BEGIN_SRC emacs-lisp
   (scroll-bar-mode -1)
+  (menu-bar-mode -1)
   (when (fboundp 'tool-bar-mode)
     (tool-bar-mode -1))
 #+END_SRC
@@ -217,7 +221,6 @@ Taken from the Spacemacs OSX module
 #+END_SRC
 
 ** Diminish
-
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :ensure t)
@@ -243,22 +246,6 @@ Taken from the Spacemacs OSX module
   (setq org-src-tab-acts-natively t)
 #+END_SRC
 
-* Spelling
-#+BEGIN_SRC emacs-lisp
-  (use-package flyspell
-    :defer t
-    :init (setq ispell-program-name "aspell" ; use aspell instead of ispell
-              ispell-extra-args '("--sug-mode=ultra"))
-    :config (flyspell-setup)
-    :ensure t)
-
-  (defun flyspell-setup ()
-    "Deferred setup of flyspell-mode."
-    (add-hook 'text-mode-hook 'flyspell-mode)
-    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-    (add-hook 'org-mode-hook 'flyspell-mode))
-#+END_SRC
-  
 * Syntax checking
 
 #+BEGIN_SRC emacs-lisp
@@ -398,58 +385,7 @@ Taken from the Spacemacs OSX module
     :ensure t)
 #+END_SRC
 
-* Python
-#+BEGIN_SRC emacs-lisp
-
-    (use-package anaconda-mode
-      :ensure anaconda-mode
-      :commands anaconda-mode
-      :init
-      (progn
-        (add-hook 'python-mode-hook 'anaconda-mode)
-        (add-hook 'python-mode-hook 'eldoc-mode)))
-
-    (use-package company-anaconda
-      :ensure company-anaconda
-      :init (add-to-list 'company-backends 'company-anaconda))
-
-    (use-package virtualenvwrapper
-      :ensure t
-      :commands (venv-workon venv-deactivate venv-initialize-interactive-shells venv-initialize-eshell)
-      :config
-      (message "virtualenvwrapper loaded")
-      :init
-      (progn
-        (venv-initialize-interactive-shells) 
-        (venv-initialize-eshell)
-        (setq venv-location "~/.virtualenvs")))
-
-#+END_SRC
-
-* Javascript (js2-mode)
-#+BEGIN_SRC emacs-lisp
-  (use-package js2-mode
-    :mode "\\.js\\'"
-    :ensure t)
-#+END_SRC
-
-* Web mode
-#+BEGIN_SRC emacs-lisp
-(use-package web-mode
-  :ensure t
-  :mode (("\\.phtml\\'" . web-mode) ("\\.erb\\'" . web-mode)
-         ("\\.jsp\\'" . web-mode) ("\\.as[cp]x\\'" . web-mode)
-         ("\\.erb\\'" . web-mode) ("\\.html\\'" . web-mode)
-         ("\\.rhtml\\'" . web-mode) ("\\.mustache\\'" . web-mode))
-    :config
-  (progn
-    (bind-key "C-c ;" 'web-mode-comment-or-uncomment web-mode-map)
-    (unbind-key "C-c C-p" web-mode-map)
-    (unbind-key "C-c C-n" web-mode-map)))
-#+END_SRC
-
 * Package list
-
 #+BEGIN_SRC emacs-lisp
   (use-package paradox
     :ensure t
@@ -465,12 +401,4 @@ Taken from the Spacemacs OSX module
            ("C-M-j" . buf-move-down)
            ("C-M-k" . buf-move-up)
            ("C-M-l" . buf-move-right)))
-#+END_SRC
-
-* CSV mode
-
-#+BEGIN_SRC emacs-lisp
-  (use-package csv-mode
-    :ensure t
-    :mode ("\\.csv$" . csv-mode))
 #+END_SRC
