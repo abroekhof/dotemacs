@@ -213,13 +213,6 @@ Use Super to get modern-style keybindings.
   (size-indication-mode t)
 #+END_SRC
 
-** Make the fringe (gutter) smaller
-   The argument is a width in pixels (the default is 8)
-#+BEGIN_SRC emacs-lisp
-  (if (fboundp 'fringe-mode)
-      (fringe-mode 4))
-#+END_SRC
-
 ** Diminish
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
@@ -234,24 +227,11 @@ Use Super to get modern-style keybindings.
     :ensure t)
 #+END_SRC
 
-** Clean up obsolete buffers automatically
-#+BEGIN_SRC emacs-lisp
-(require 'midnight)
-#+END_SRC
-  
 * Org settings
 ** Make sure that code is highlighted properly in org files
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
-#+END_SRC
-
-* Syntax checking
-
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :ensure t
-    :init (add-hook 'after-init-hook #'global-flycheck-mode))
 #+END_SRC
 
 * Anzu replace
@@ -273,7 +253,7 @@ Use Super to get modern-style keybindings.
                 (global-undo-tree-mode))
     :ensure t)
 #+END_SRC
-
+  
 * Switch window
 #+BEGIN_SRC emacs-lisp
   (use-package switch-window
@@ -313,7 +293,7 @@ Use Super to get modern-style keybindings.
               )
     :ensure t)
 #+END_SRC
-
+  
 * Helm
 ** Helm configurations
 #+BEGIN_SRC emacs-lisp
@@ -338,6 +318,7 @@ Use Super to get modern-style keybindings.
               :ensure t)
             (setq helm-split-window-in-side-p           nil ; open helm buffer inside current window, not occupy whole other window
                   helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
+                  helm-M-x-fuzzy-matching               t ; fuzzy matching for M-x
                   helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
                   helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
                   helm-ff-file-name-history-use-recentf t)
