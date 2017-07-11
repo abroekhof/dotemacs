@@ -38,6 +38,9 @@
  '(custom-safe-themes
    (quote
     ("61724add6ddc09a0426f6b39109a76dd83174cf36d76563d3a35c7e07c0753c6" "e7ec0cc3ce134cc0bd420b98573bbd339a908ac24162b8034c98e1ba5ee1f9f6" default)))
+ '(package-selected-packages
+   (quote
+    (adaptive-wrap zenburn-theme web-mode volatile-highlights virtualenvwrapper use-package undo-tree switch-window smartparens rainbow-delimiters paradox multiple-cursors magit js2-mode helm-themes helm-swoop helm-projectile helm-descbinds helm-ag guide-key flycheck exec-path-from-shell diff-hl csv-mode company-anaconda buffer-move anzu)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

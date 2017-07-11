@@ -52,7 +52,7 @@
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
-   
+
 ** Smart Parentheses
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens-config
@@ -85,14 +85,11 @@
 #+BEGIN_SRC emacs-lisp
   (use-package recentf
     :init (progn(setq recentf-max-saved-items 500
-                      recentf-max-menu-items 15
-                      ;; disable recentf-cleanup on Emacs start, because it can cause
-                      ;; problems with remote files
-                      recentf-auto-cleanup 'never)
+                      recentf-max-menu-items 15)
                 (recentf-mode +1))
     :ensure t)
 #+END_SRC
-   
+
 ** Savehist keeps track of some history
 #+BEGIN_SRC emacs-lisp
   (use-package savehist
@@ -125,14 +122,6 @@
      (setq vc-make-backup-files t)
      (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
    #+end_src
-
-** Volatile highlights
-#+BEGIN_SRC emacs-lisp
-(use-package volatile-highlights
-  :ensure t
-  :commands volatile-highlights-mode
-  :init (volatile-highlights-mode t))
-#+END_SRC
 
 ** Save desktop
 #+BEGIN_SRC emacs-lisp
@@ -175,6 +164,13 @@ Use Super to get modern-style keybindings.
   (global-set-key (kbd "s-Z") 'undo-tree-redo)
 #+END_SRC
 
+** C/C++ Behavior
+Use a better indentation for C code.
+#+BEGIN_SRC emacs-lisp
+  (setq c-default-style "linux"
+        c-basic-offset 4)
+#+END_SRC
+
 * UI settings
 ** Turn off the scroll bar and the tool bar and the menu bar.
 #+BEGIN_SRC emacs-lisp
@@ -190,7 +186,6 @@ Use Super to get modern-style keybindings.
       :ensure t
       :init (progn (load-theme 'zenburn t))
       )
-
     (use-package helm-themes
       :ensure t
   )
@@ -253,7 +248,7 @@ Use Super to get modern-style keybindings.
                 (global-undo-tree-mode))
     :ensure t)
 #+END_SRC
-  
+
 * Switch window
 #+BEGIN_SRC emacs-lisp
   (use-package switch-window
@@ -283,17 +278,17 @@ Use Super to get modern-style keybindings.
 * Projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :commands (projectile-global-mode projectile-ignored-projects projectile-compile-project)
-    :init (progn
-            (projectile-global-mode))
-           
     :config (progn
               (setq projectile-completion-system 'helm)
               (setq projectile-switch-project-action 'helm-projectile)
+              (projectile-global-mode t)
               )
+    :init      (progn
+                 (setq projectile-indexing-method     'alien
+                       projectile-enable-caching      t))
     :ensure t)
 #+END_SRC
-  
+
 * Helm
 ** Helm configurations
 #+BEGIN_SRC emacs-lisp
@@ -307,7 +302,7 @@ Use Super to get modern-style keybindings.
            ("C-h r" . helm-info-emacs)
            ("C-h C-l" . helm-locate-library)
            ("C-h SPC" . helm-all-mark-rings))
-      
+
     :init (progn
             (use-package helm-config)
             (use-package helm-projectile
