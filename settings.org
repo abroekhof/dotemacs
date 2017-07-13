@@ -182,13 +182,13 @@ Use a better indentation for C code.
 
 ** Use a nice theme
 #+BEGIN_SRC emacs-lisp
-    (use-package zenburn-theme
-      :ensure t
-      :init (progn (load-theme 'zenburn t))
-      )
-    (use-package helm-themes
-      :ensure t
-  )
+  (use-package doom-themes
+    :ensure t
+    :init (progn (load-theme 'doom-vibrant t))
+    )
+  (use-package helm-themes
+    :ensure t
+    )
 #+END_SRC
 
 ** Turn on blinking cursor
@@ -220,8 +220,12 @@ Use a better indentation for C code.
     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
     :diminish rainbow-delimiters-mode
     :ensure t)
+  (use-package smart-mode-line
+    :ensure    smart-mode-line
+    :init      (setq sml/theme 'dark)
+    :config    (sml/setup))
 #+END_SRC
-
+   
 * Org settings
 ** Make sure that code is highlighted properly in org files
 #+BEGIN_SRC emacs-lisp
@@ -292,41 +296,43 @@ Use a better indentation for C code.
 * Helm
 ** Helm configurations
 #+BEGIN_SRC emacs-lisp
-  (use-package helm
-    :bind (("M-x"     . helm-M-x)
-           ("C-x C-f" . helm-find-files)
-           ("C-x C-r" . helm-recentf)
-           ("M-y" . helm-show-kill-ring)
-           ("C-x b" . helm-mini)
-           ("C-h f" . helm-apropos)
-           ("C-h r" . helm-info-emacs)
-           ("C-h C-l" . helm-locate-library)
-           ("C-h SPC" . helm-all-mark-rings))
+    (use-package helm
+      :bind (("M-x"     . helm-M-x)
+             ("C-x C-f" . helm-find-files)
+             ("C-x C-r" . helm-recentf)
+             ("M-y" . helm-show-kill-ring)
+             ("C-x b" . helm-mini)
+             ("C-h f" . helm-apropos)
+             ("C-h r" . helm-info-emacs)
+             ("C-h C-l" . helm-locate-library)
+             ("C-h SPC" . helm-all-mark-rings))
 
-    :init (progn
-            (use-package helm-config)
-            (use-package helm-projectile
-              :init (helm-projectile-on)
-              :ensure t)
-            (use-package helm-descbinds
-              :init (helm-descbinds-mode)
-              :ensure t)
-            (setq helm-split-window-in-side-p           nil ; open helm buffer inside current window, not occupy whole other window
-                  helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
-                  helm-M-x-fuzzy-matching               t ; fuzzy matching for M-x
-                  helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-                  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-                  helm-ff-file-name-history-use-recentf t)
-            (helm-mode +1)
-            (define-key helm-command-map (kbd "o")     'helm-occur)
-            (define-key helm-command-map (kbd "g")     'helm-do-grep)
-            (define-key helm-command-map (kbd "C-c w") 'helm-wikipedia-suggest)
-            (define-key helm-command-map (kbd "SPC")   'helm-all-mark-rings)
-            (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
-            (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-            (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-            )
-    :ensure t)
+      :init (progn
+              (use-package helm-config)
+              (use-package helm-projectile
+                :init (helm-projectile-on)
+                :ensure t)
+              (use-package helm-descbinds
+                :init (helm-descbinds-mode)
+                :ensure t)
+              (setq helm-split-window-in-side-p           nil ; open helm buffer inside current window, not occupy whole other window
+                    helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
+                    helm-M-x-fuzzy-matching               t ; fuzzy matching for M-x
+                    helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+                    helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+                    helm-ff-file-name-history-use-recentf t)
+              (helm-mode +1)
+              (define-key helm-command-map (kbd "o")     'helm-occur)
+              (define-key helm-command-map (kbd "g")     'helm-do-grep)
+              (define-key helm-command-map (kbd "C-c w") 'helm-wikipedia-suggest)
+              (define-key helm-command-map (kbd "SPC")   'helm-all-mark-rings)
+              (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+              (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+              (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+              )
+      :ensure t
+      :diminish helm-mode
+  )
 #+END_SRC
 
 ** Helm swoop
@@ -347,6 +353,7 @@ Use a better indentation for C code.
                   (setq company-minimum-prefix-length 2)
                   (setq company-tooltip-flip-when-above t)
                   (add-hook 'after-init-hook 'global-company-mode))
+    :diminish company-mode
     :ensure t)
 #+END_SRC
 
