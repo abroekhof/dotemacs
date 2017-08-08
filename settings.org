@@ -209,14 +209,39 @@ Use a better indentation for C code.
 
 ** Rainbow delimiters
 #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-    :diminish rainbow-delimiters-mode
+   (use-package rainbow-delimiters
+     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+     :diminish rainbow-delimiters-mode
+     :ensure t)
+#+END_SRC
+
+** Smart Mode Line
+#+BEGIN_SRC emacs-lisp
+   (use-package smart-mode-line
+     :ensure    smart-mode-line
+     :init      (progn (setq sml/theme 'dark
+                             sml/no-confirm-load-theme t))
+     :config    (sml/setup))
+#+END_SRC
+
+** Git Gutter
+#+BEGIN_SRC emacs-lisp
+  (use-package git-gutter
+    :commands (global-git-gutter-mode git-gutter-mode)
+    :init
+    (progn
+      (global-git-gutter-mode t)
+      (setq git-gutter:update-interval 2
+            git-gutter:modified-sign " "
+            git-gutter:added-sign "+"
+            git-gutter:deleted-sign "-"
+            git-gutter:diff-option "-w"
+            git-gutter:hide-gutter t
+            git-gutter:ask-p nil
+            git-gutter:verbosity 0
+            git-gutter:handled-backends '(git hg bzr svn)
+            git-gutter:hide-gutter t))
     :ensure t)
-  (use-package smart-mode-line
-    :ensure    smart-mode-line
-    :init      (setq sml/theme 'dark)
-    :config    (sml/setup))
 #+END_SRC
    
 * Org settings
