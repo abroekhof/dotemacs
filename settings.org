@@ -397,3 +397,13 @@ Use a better indentation for C code.
            ("C-M-k" . buf-move-up)
            ("C-M-l" . buf-move-right)))
 #+END_SRC
+
+* Programming modes
+
+#+BEGIN_SRC emacs-lisp
+  (use-package protobuf-mode
+    :ensure t
+    :mode "\\.proto\\'"
+    )
+#+END_SRC
+
