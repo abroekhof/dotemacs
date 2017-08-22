@@ -229,11 +229,11 @@ Use a better indentation for C code.
 #+BEGIN_SRC emacs-lisp
    (use-package smart-mode-line
      :ensure    smart-mode-line
-     :init      (progn (setq sml/theme 'dark
+     :init      (progn (setq sml/theme 'respectful
                              sml/no-confirm-load-theme t))
      :config    (sml/setup))
 #+END_SRC
-   
+
 * Org settings
 ** Make sure that code is highlighted properly in org files
 #+BEGIN_SRC emacs-lisp
@@ -292,7 +292,7 @@ Use a better indentation for C code.
             git-gutter:deleted-sign "-"
             git-gutter:hide-gutter t))
     :ensure t
-    :diminish t)
+    :diminish git-gutter-mode)
 #+END_SRC
 
 * Projectile
@@ -389,7 +389,7 @@ Use a better indentation for C code.
         (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
         (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
         (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)))
-    :diminish t)
+    :diminish helm-gtags-mode)
 #+END_SRC
 
 ** Helm swoop
