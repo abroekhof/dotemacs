@@ -239,6 +239,9 @@ Use a better indentation for C code.
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
+  (setq org-agenda-files (quote ("~/nest/personal/org")))
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                   (org-agenda-files :maxlevel . 9))))
 #+END_SRC
 
 * Anzu replace
