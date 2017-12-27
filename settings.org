@@ -192,9 +192,9 @@ Use a better indentation for C code.
 
 ** Use a nice theme
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
+  (use-package gruvbox-theme
     :ensure t
-    :init (progn (load-theme 'doom-vibrant t))
+    :init (progn (load-theme 'gruvbox-dark-medium t))
     )
   (use-package helm-themes
     :ensure t
@@ -227,11 +227,12 @@ Use a better indentation for C code.
 
 ** Smart Mode Line
 #+BEGIN_SRC emacs-lisp
-   (use-package smart-mode-line
-     :ensure    smart-mode-line
-     :init      (progn (setq sml/theme 'respectful
-                             sml/no-confirm-load-theme t))
-     :config    (sml/setup))
+  (use-package smart-mode-line
+    :ensure    smart-mode-line
+    :init      (progn (setq sml/theme 'respectful
+                            sml/no-confirm-load-theme t
+                            column-number-mode t))
+    :config    (sml/setup))
 #+END_SRC
 
 * Org settings
@@ -452,6 +453,12 @@ Use a better indentation for C code.
   (use-package protobuf-mode
     :ensure t
     :mode "\\.proto\\'"
+    :config
+    (defconst my-protobuf-style
+      '((c-basic-offset . 2)
+        (indent-tabs-mode . nil)))
+    (add-hook 'protobuf-mode-hook
+              (lambda () (c-add-style "my-style" my-protobuf-style t)))
     )
 #+END_SRC
 
