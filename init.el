@@ -17,7 +17,13 @@
 
 (eval-when-compile
   (require 'use-package))
+
+(use-package diminish
+  :ensure t)
 (require 'diminish)
+
+(use-package bind-key
+  :ensure t)
 (require 'bind-key)
 
 (use-package org

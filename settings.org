@@ -175,8 +175,7 @@ Use a better indentation for C code.
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind (("s-." . avy-goto-word-or-subword-1)
-         ("s-," . avy-goto-char))
+  :bind (("C-;" . avy-goto-word-or-subword-1))
   :config
   (setq avy-background t))
 #+END_SRC
@@ -448,7 +447,7 @@ Use a better indentation for C code.
 #+END_SRC
 
 * Programming modes
-
+** Protocol Buffers
 #+BEGIN_SRC emacs-lisp
   (use-package protobuf-mode
     :ensure t
@@ -461,4 +460,7 @@ Use a better indentation for C code.
               (lambda () (c-add-style "my-style" my-protobuf-style t)))
     )
 #+END_SRC
-
+** Makefiles
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-list '("\\.mak\\'" . makefile-mode))
+#+END_SRC
