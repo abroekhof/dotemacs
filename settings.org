@@ -462,5 +462,5 @@ Use a better indentation for C code.
 #+END_SRC
 ** Makefiles
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-list '("\\.mak\\'" . makefile-mode))
+  (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
 #+END_SRC
