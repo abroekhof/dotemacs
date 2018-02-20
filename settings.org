@@ -181,6 +181,12 @@ Use a better indentation for C code.
 #+END_SRC
 
 * UI settings
+** Font
+#+BEGIN_SRC emacs-lisp
+(if (member "DejaVu Sans Mono" (font-family-list))
+    (set-face-attribute 'default nil :family "DejaVu Sans Mono" q:height 110))
+#+END_SRC
+
 ** Turn off the scroll bar and the tool bar and the menu bar.
 #+BEGIN_SRC emacs-lisp
   (scroll-bar-mode -1)
