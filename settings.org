@@ -407,14 +407,11 @@ Use a better indentation for C code.
     :diminish helm-gtags-mode)
 #+END_SRC
 
-** Helm swoop
+** Swiper Helm
 #+BEGIN_SRC emacs-lisp
-  (use-package helm-swoop
-    :bind (("C-c C-SPC" . helm-swoop)
-           ("C-c o" . helm-multi-swoop-all)
-           ("C-s"   . helm-swoop)
-           ("C-r"   . helm-resume))
-    :ensure t)
+(use-package swiper-helm
+  :ensure t
+  :bind ("C-s" . swiper-helm))
 #+END_SRC
 * Company
 
