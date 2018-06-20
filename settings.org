@@ -286,6 +286,14 @@ Use a better indentation for C code.
     :config (windmove-default-keybindings 'shift))
 #+END_SRC
 
+* Expand region
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :commands er/expand-region
+    :bind ("C-=" . er/expand-region))
+#+END_SRC
+
 * Version control
 ** Magit
 #+BEGIN_SRC emacs-lisp
