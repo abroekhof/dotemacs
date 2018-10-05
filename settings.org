@@ -169,6 +169,7 @@ Use a better indentation for C code.
 #+BEGIN_SRC emacs-lisp
   (setq c-default-style "linux"
         c-basic-offset 4)
+  (c-set-offset 'case-label '+)
 #+END_SRC
 
 ** Avy (navigation)
@@ -481,6 +482,15 @@ Use a better indentation for C code.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
 #+END_SRC
+
+* Very Large Files
+#+BEGIN_SRC emacs-lisp
+(use-package vlf
+  :ensure t
+  :config (progn
+            (require 'vlf-setup)))
+#+END_SRC
+
 * Custom functions
 ** Copy the current buffer's file path or dired path to `kill-ring'.
 Result is full path.
