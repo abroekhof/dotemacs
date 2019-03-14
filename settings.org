@@ -326,6 +326,7 @@ Use a better indentation for C code.
               (setq projectile-completion-system 'helm)
               (setq projectile-switch-project-action 'helm-projectile)
               (projectile-global-mode t)
+              (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
               )
     :init      (progn
                  (setq projectile-indexing-method     'alien
