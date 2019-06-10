@@ -323,8 +323,8 @@ Use a better indentation for C code.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :config (progn
-              (setq projectile-completion-system 'helm)
-              (setq projectile-switch-project-action 'helm-projectile)
+              (setq projectile-completion-system 'ivy)
+              (setq projectile-switch-project-action 'counsel-projectile)
               (projectile-global-mode t)
               (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
               )
@@ -334,106 +334,65 @@ Use a better indentation for C code.
     :ensure t)
 #+END_SRC
 
-* Helm
-** Helm configurations
+* Ivy
+** Ivy config
 #+BEGIN_SRC emacs-lisp
-    (use-package helm
-      :bind (("M-x"     . helm-M-x)
-             ("C-x C-f" . helm-find-files)
-             ("C-x C-r" . helm-recentf)
-             ("M-y" . helm-show-kill-ring)
-             ("C-x b" . helm-mini)
-             ("C-h f" . helm-apropos)
-             ("C-h r" . helm-info-emacs)
-             ("C-h C-l" . helm-locate-library)
-             ("C-h SPC" . helm-all-mark-rings))
+  (use-package ag
+    :ensure t)  
 
-      :init (progn
-              (use-package helm-config)
-              (use-package helm-projectile
-                :init (helm-projectile-on)
-                :ensure t)
-              (use-package helm-descbinds
-                :init (helm-descbinds-mode)
-                :ensure t)
-              (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-                    helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
-                    helm-M-x-fuzzy-matching               t ; fuzzy matching for M-x
-                    helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-                    helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-                    helm-ff-file-name-history-use-recentf t)
-              (helm-mode +1)
-              (define-key helm-command-map (kbd "o")     'helm-occur)
-              (define-key helm-command-map (kbd "g")     'helm-do-grep)
-              (define-key helm-command-map (kbd "C-c w") 'helm-wikipedia-suggest)
-              (define-key helm-command-map (kbd "SPC")   'helm-all-mark-rings)
-              (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
-              (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-              (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-              )
-      :ensure t
-      :diminish helm-mode
-  )
-#+END_SRC
-
-** Helm gtags
-#+BEGIN_SRC emacs-lisp
-  ;; this variables must be set before load helm-gtags
-  ;; you can change to any prefix key of your choice
-  (setq
-   helm-gtags-ignore-case t
-   helm-gtags-auto-update t
-   helm-gtags-use-input-at-cursor t
-   helm-gtags-pulse-at-cursor t
-   helm-gtags-prefix-key "\C-cg"
-   helm-gtags-suggested-key-mapping t
-   )
-
-  (use-package helm-gtags
+  (use-package ivy
     :ensure t
-    :init
-    (progn
-        ;; Enable helm-gtags-mode in Dired so you can jump to any tag
-      ;; when navigate project tree with Dired
-      (add-hook 'dired-mode-hook 'helm-gtags-mode)
+    :config
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "<f6>") 'ivy-resume))
 
-      ;; Enable helm-gtags-mode in Eshell for the same reason as above
-      (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+  (use-package swiper
+    :ensure t
+    :config
+    (global-set-key "\C-s" 'swiper))
 
-      ;; Enable helm-gtags-mode in languages that GNU Global supports
-      (add-hook 'c-mode-hook 'helm-gtags-mode)
-      (add-hook 'c++-mode-hook 'helm-gtags-mode)
-      (add-hook 'java-mode-hook 'helm-gtags-mode)
-      (add-hook 'asm-mode-hook 'helm-gtags-mode)
+  (use-package counsel
+    :ensure t
+    :config (counsel-mode))
 
-      ;; key bindings
-      (with-eval-after-load 'helm-gtags
-        (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-        (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
-        (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-        (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
-        (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-        (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)))
-    :diminish helm-gtags-mode)
+  (use-package counsel-projectile
+    :ensure t
+    :config
+    (add-hook 'after-init-hook 'counsel-projectile-mode))
+
+  (use-package counsel-gtags
+    :ensure t
+    :config
+    (add-hook 'c-mode-hook 'counsel-gtags-mode)
+    (add-hook 'c++-mode-hook 'counsel-gtags-mode)
+
+    (with-eval-after-load 'counsel-gtags
+      (define-key counsel-gtags-mode-map (kbd "M-t") 'counsel-gtags-find-definition)
+      (define-key counsel-gtags-mode-map (kbd "M-r") 'counsel-gtags-find-reference)
+      (define-key counsel-gtags-mode-map (kbd "M-s") 'counsel-gtags-find-symbol)
+      (define-key counsel-gtags-mode-map (kbd "M-.") 'counsel-gtags-dwim)
+      (define-key counsel-gtags-mode-map (kbd "M-,") 'counsel-gtags-go-backward)))
 #+END_SRC
 
-** Swiper Helm
-#+BEGIN_SRC emacs-lisp
-(use-package swiper-helm
-  :ensure t
-  :bind ("C-s" . swiper-helm))
-#+END_SRC
 * Company
-
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :config (progn(setq company-idle-delay 0.5)
-                  (setq company-tooltip-limit 10)
-                  (setq company-minimum-prefix-length 2)
-                  (setq company-tooltip-flip-when-above t)
-                  (add-hook 'after-init-hook 'global-company-mode))
-    :diminish company-mode
-    :ensure t)
+    :ensure t
+    :defer t
+    :init (add-hook 'after-init-hook 'global-company-mode)
+    :config
+    (use-package company-irony :ensure t :defer t)
+    (setq company-idle-delay              0.1
+          company-minimum-prefix-length   2
+          company-show-numbers            t
+          company-tooltip-limit           20
+          company-backends                '((company-irony company-gtags))
+          )
+    :bind ("C-;" . company-complete-common)
+    )
 #+END_SRC
 * Highlight symbol
 When you hover on a symbol, it will highlight other occurrences in the buffer.
@@ -475,6 +434,21 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 #+END_SRC
 
 * Programming modes
+** C/C++
+*** Irony
+#+BEGIN_SRC emacs-lisp
+  (use-package irony
+    :ensure t
+    :defer t
+    :init
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'objc-mode-hook 'irony-mode)
+    :config
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+#+END_SRC
+
 ** Protocol Buffers
 #+BEGIN_SRC emacs-lisp
   (use-package protobuf-mode
