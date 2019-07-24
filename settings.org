@@ -8,6 +8,15 @@
 #+END_SRC
 
 * Editor behavior
+** Record key frequency
+#+BEGIN_SRC emacs-lisp
+  (use-package keyfreq
+    :ensure t
+    :config
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1))
+#+END_SRC
+
 ** Get rid of tabs
    #+BEGIN_SRC emacs-lisp
      (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
@@ -105,14 +114,17 @@
 #+END_SRC
 
 ** Backups
-   Borrowed from Sacha Chua
-   https://github.com/sachac/.emacs.d/
+A common frustration with new Emacs users is the =filename#= files created. This centralises the backup files created as you edit.
 
-   This is one of the things people usually want to change right away. By default, Emacs saves backup files in the current directory. These are the files ending in =~= that are cluttering up your directory lists. The following code stashes them all in =~/.emacs.d/backups=, where I can find them with =C-x C-f= (=find-file=) if I really need to.
-
-   #+begin_src emacs-lisp
-     (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-   #+end_src
+#+BEGIN_SRC emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+    backup-by-copying t    ; Don't delink hardlinks
+    version-control t      ; Use version numbers on backups
+    delete-old-versions t  ; Automatically delete excess backups
+    kept-new-versions 20   ; how many of the newest versions to keep
+    kept-old-versions 5    ; and how many of the old
+    )
+#+END_SRC
 
    Disk space is cheap. Save lots.
 
@@ -169,6 +181,21 @@ Use a better indentation for C code.
   (setq avy-background t))
 #+END_SRC
 
+** Crux
+=crux= has useful functions extracted from Emacs Prelude. Set =C-a= to move to the first non-whitespace character on a line, and then to toggle between that and the beginning of the line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package crux
+    :ensure t)
+
+  (global-set-key (kbd "C-a") #'crux-move-beginning-of-line)
+  (global-set-key (kbd "C-<backspace>") #'crux-kill-line-backwards)
+#+END_SRC
+
+** Whitespace cleanup
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
 * UI settings
 ** Font
 #+BEGIN_SRC emacs-lisp
@@ -327,7 +354,10 @@ Use a better indentation for C code.
 ** Ivy config
 #+BEGIN_SRC emacs-lisp
   (use-package ag
-    :ensure t)  
+    :ensure t)
+
+  (use-package smex
+    :ensure t)
 
   (use-package ivy
     :ensure t
@@ -457,9 +487,15 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     )
 #+END_SRC
 ** Makefiles
+
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
 #+END_SRC
+** Aggressive Indent
+ #+BEGIN_SRC emacs-lisp
+   (use-package aggressive-indent
+     :ensure t)
+ #+END_SRC
 
 * Very Large Files
 #+BEGIN_SRC emacs-lisp
@@ -579,17 +615,4 @@ Version 2017-09-01
          (progn
            (message "File path copied: 「%s」" $fpath)
            $fpath )))))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (defun only-current-buffer ()
-    (interactive)
-    (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
-
-  (defun increment-number-at-point ()
-    (interactive)
-    (skip-chars-backward "0-9")
-    (or (looking-at "[0-9]+")
-        (error "No number at point"))
-    (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
 #+END_SRC
