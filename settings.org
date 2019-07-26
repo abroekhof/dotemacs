@@ -382,9 +382,9 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
   (setq org-log-done 'time)
-  (setq org-default-notes-file "~/nest/abroekhof/org/pumice.org")
+  (setq org-default-notes-file "~/DriveFS/My Drive/org/inbox.org")
   (define-key global-map "\C-cc" 'org-capture)
-  (setq org-agenda-files (quote ("~/nest/abroekhof/org")))
+  (setq org-agenda-files (quote ("~/DriveFS/My Drive/org")))
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                    (org-agenda-files :maxlevel . 9))))
 #+END_SRC
