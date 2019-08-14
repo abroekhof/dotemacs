@@ -163,7 +163,6 @@ Taken from the Spacemacs OSX module
 #+END_SRC
 
 * Editor behavior
-
 ** Record key frequency
 #+BEGIN_SRC emacs-lisp
   (use-package keyfreq
@@ -202,15 +201,11 @@ Taken from the Spacemacs OSX module
 
 ** Uniquify
 #+BEGIN_SRC emacs-lisp
-  (use-package uniquify
-    :init(progn(setq uniquify-buffer-name-style 'forward)
-               (setq uniquify-separator "/")
-               (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
-               (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
-               )
-    )
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-separator "/")
+  (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+  (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 #+END_SRC
-
 ** Saveplace remembers your location in a file when saving files
 #+BEGIN_SRC emacs-lisp
   (use-package saveplace
@@ -304,13 +299,6 @@ Taken from the Spacemacs OSX module
     :ensure t)
 #+END_SRC
 
-** Package list
-#+BEGIN_SRC emacs-lisp
-  (use-package paradox
-    :ensure t
-  )
-#+END_SRC
-
 ** Highlight symbol
 When you hover on a symbol, it will highlight other occurrences in the buffer.
 #+BEGIN_SRC emacs-lisp
@@ -336,6 +324,11 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (use-package smex
     :ensure t)
 
+  (use-package counsel
+    :ensure t
+    :diminish counsel-mode
+    :config (counsel-mode))
+
   (use-package ivy
     :ensure t
     :diminish ivy-mode
@@ -357,11 +350,6 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     :ensure t
     :config
     (global-set-key "\C-s" 'swiper))
-
-  (use-package counsel
-    :ensure t
-    :diminish counsel-mode
-    :config (counsel-mode))
 
   (use-package counsel-projectile
     :ensure t
