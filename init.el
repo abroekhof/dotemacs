@@ -4,13 +4,13 @@
 
 ;;; Code:
 ;;; initalize all ELPA packages
-(eval-when-compile
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
+(eval-when-compile
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package)
