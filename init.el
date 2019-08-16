@@ -4,6 +4,10 @@
 
 ;;; Code:
 ;;; initalize all ELPA packages
+
+::; TODO(abroekhof): Remove this when upgrading to 26.3
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
