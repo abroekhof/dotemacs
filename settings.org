@@ -372,13 +372,12 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 #+END_SRC
 
 * Org settings
-
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
   (setq org-log-done 'time)
   (setq org-default-notes-file "~/DriveFS/My Drive/org/inbox.org")
-  (define-key global-map "\C-cc" 'org-capture)
+  (define-key global-map "\C-cc" 'counsel-org-capture)
   (define-key global-map "\C-ca" 'org-agenda)
   (setq org-agenda-files (quote ("~/DriveFS/My Drive/org")))
   (setq org-refile-targets (quote ((nil :maxlevel . 2)
