@@ -42,11 +42,6 @@ A common frustration with new Emacs users is the =filename#= files created. This
     )
 #+END_SRC
 
-** Save desktop
-#+BEGIN_SRC emacs-lisp
-  (desktop-save-mode 1)
-#+END_SRC
-
 ** OSX Behavior
 Taken from the Spacemacs OSX module
 #+BEGIN_SRC emacs-lisp
@@ -58,7 +53,8 @@ Taken from the Spacemacs OSX module
     (setq mac-option-modifier 'meta))
 #+END_SRC
 
-** Whitespace cleanup
+** TODO Whitespace cleanup
+Change this to WS-Butler
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
@@ -189,6 +185,13 @@ Taken from the Spacemacs OSX module
                                                    try-complete-lisp-symbol)))
 #+END_SRC
 
+** YASnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config
+    (yas-global-mode 1))
+#+END_SRC
 ** Smart Parentheses
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens-config
@@ -326,9 +329,12 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 
   (use-package counsel
     :ensure t
-    :bind ("C-s" . counsel-grep-or-swiper)
+
     :diminish counsel-mode
-    :config (counsel-mode))
+    :config
+    (counsel-mode)
+    (setq counsel-grep-base-command
+          "rg -i --no-heading --line-number --color never '%s' %s"))
 
   (use-package ivy
     :ensure t
@@ -348,6 +354,7 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
       (ivy-rich-mode)))
 
   (use-package swiper
+    :bind ("C-s" . swiper)
     :ensure t)
 
   (use-package counsel-projectile
@@ -488,19 +495,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 * Company
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :diminish company-mode
     :ensure t
-    :defer t
-    :init (add-hook 'after-init-hook 'global-company-mode)
     :config
-    (use-package company-irony :ensure t :defer t)
-    (setq company-idle-delay              0.1
-          company-minimum-prefix-length   2
-          company-show-numbers            t
-          company-tooltip-limit           20
-          company-backends                '((company-irony company-gtags))
-          )
-    )
+    (setq company-idle-delay 0.3)
+    (global-company-mode 1)
+    (global-set-key (kbd "C-<tab>") 'company-complete))
 #+END_SRC
 * Programming modes
 ** Which function
@@ -517,19 +516,38 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
    (c-set-offset 'case-label '+)
  #+END_SRC
 
-*** Irony
+*** LSP
 #+BEGIN_SRC emacs-lisp
-  (use-package irony
-    :diminish irony-mode
+  (use-package flycheck
     :ensure t
-    :defer t
-    :init
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'objc-mode-hook 'irony-mode)
+    :diminish flycheck-mode
     :config
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+    (add-hook 'after-init-hook #'global-flycheck-mode))
 
+  (use-package lsp-mode
+    :commands lsp
+    :config
+    (add-hook 'c++-mode-hook #'lsp)
+    (add-hook 'c-mode-hook #'lsp)
+    (add-hook 'python-mode-hook #'lsp)
+    (add-hook 'rust-mode-hook #'lsp)
+    :ensure t)
+
+  (use-package lsp-ui
+    :requires lsp-mode flycheck
+    :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+  (use-package company-lsp
+    :ensure t
+    :requires company
+    :config
+    (push 'company-lsp company-backends)
+
+    ;; Disable client-side cache because the LSP server does a better job.
+    (setq company-transformers nil
+          company-lsp-async t
+          company-lsp-cache-candidates nil))
 #+END_SRC
 
 ** Protocol Buffers
