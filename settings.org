@@ -501,12 +501,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (global-company-mode 1)
     (global-set-key (kbd "C-<tab>") 'company-complete))
 #+END_SRC
+
 * Programming modes
 ** Which function
 #+BEGIN_SRC emacs-lisp
 ;; Show the current function name
 (which-function-mode)
 #+END_SRC
+
 ** C/C++
 *** Behavior
  Use a better indentation for C code.
@@ -526,17 +528,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
   (use-package lsp-mode
     :commands lsp
-    :config
-    (add-hook 'c++-mode-hook #'lsp)
-    (add-hook 'c-mode-hook #'lsp)
-    (add-hook 'python-mode-hook #'lsp)
-    (add-hook 'rust-mode-hook #'lsp)
     :ensure t)
 
   (use-package lsp-ui
-    :requires lsp-mode flycheck
-    :config
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+    :requires lsp-mode flycheck)
 
   (use-package company-lsp
     :ensure t
@@ -548,6 +543,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (setq company-transformers nil
           company-lsp-async t
           company-lsp-cache-candidates nil))
+
+  (use-package ccls
+    :ensure t
+    :config
+    (setq ccls-executable "ccls")
+    (setq lsp-prefer-flymake nil)
+    (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+    :hook ((c-mode c++-mode objc-mode) .
+           (lambda () (require 'ccls) (lsp))))
 #+END_SRC
 
 ** Protocol Buffers
@@ -563,11 +567,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
               (lambda () (c-add-style "my-style" my-protobuf-style t)))
     )
 #+END_SRC
-** Makefiles
 
+** Makefiles
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
 #+END_SRC
+
 * Flyspell
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
@@ -593,13 +598,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
           (global-set-key (kbd "C-M-;") 'flyspell-correct-at-point)))
       (setq flyspell-correct-interface #'flyspell-correct-ivy)))
 #+END_SRC
+
 * Very Large Files
 #+BEGIN_SRC emacs-lisp
 (use-package vlf
   :ensure t
-  :config (progn
+  :config (prognp
             (require 'vlf-setup)))
 #+END_SRC
+
 * Treemacs
 #+BEGIN_SRC emacs-lisp
 (use-package treemacs
@@ -712,3 +719,5 @@ Version 2017-09-01
            (message "File path copied: 「%s」" $fpath)
            $fpath )))))
 #+END_SRC
+
+The end.
