@@ -603,7 +603,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 #+BEGIN_SRC emacs-lisp
 (use-package vlf
   :ensure t
-  :config (prognp
+  :config (progn
             (require 'vlf-setup)))
 #+END_SRC
 
