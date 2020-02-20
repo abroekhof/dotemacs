@@ -573,6 +573,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
 #+END_SRC
 
+** CSV
+#+BEGIN_SRC emacs-lisp
+  (use-package csv-mode
+    :ensure t
+    :mode "\\.csv$")
+#+END_SRC
 * Flyspell
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
