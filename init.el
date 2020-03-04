@@ -33,7 +33,7 @@
 
 ;; load the org file containing settings
 (org-babel-load-file
- (expand-file-name "settings.org"
+ (expand-file-name "README.org"
                    user-emacs-directory))
 (provide 'init)
 ;;; init.el ends here
