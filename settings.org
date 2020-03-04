@@ -159,15 +159,6 @@ Change this to WS-Butler
 #+END_SRC
 
 * Editor behavior
-** Record key frequency
-#+BEGIN_SRC emacs-lisp
-  (use-package keyfreq
-    :ensure t
-    :config
-    (keyfreq-mode 1)
-    (keyfreq-autosave-mode 1))
-#+END_SRC
-
 ** Hippie expand settings
 #+BEGIN_SRC emacs-lisp
   (use-package hippie-exp
@@ -192,6 +183,7 @@ Change this to WS-Butler
     :config
     (yas-global-mode 1))
 #+END_SRC
+
 ** Smart Parentheses
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens-config
@@ -209,6 +201,7 @@ Change this to WS-Butler
   (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
   (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 #+END_SRC
+
 ** Saveplace remembers your location in a file when saving files
 #+BEGIN_SRC emacs-lisp
   (use-package saveplace
@@ -312,6 +305,7 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     :config
     (setq highlight-symbol-idle-delay 0.25))
 #+END_SRC
+
 ** Aggressive Indent
  #+BEGIN_SRC emacs-lisp
    (use-package aggressive-indent
@@ -322,6 +316,9 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 ** Ivy config
 #+BEGIN_SRC emacs-lisp
   (use-package ag
+    :ensure t)
+
+  (use-package wgrep
     :ensure t)
 
   (use-package smex
@@ -386,13 +383,14 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (define-key global-map "\C-cc" 'counsel-org-capture)
   (define-key global-map "\C-ca" 'org-agenda)
   (setq org-agenda-files (quote ("~/DriveFS/My Drive/org")))
-  (setq org-refile-targets (quote ((nil :maxlevel . 2)
-                                   (org-agenda-files :maxlevel . 2))))
-#+END_SRC
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                   (org-agenda-files :maxlevel . 9))))
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
 
-** Org -> Jira exporter
-#+BEGIN_SRC emacs-lisp
-  (use-package ox-jira :ensure t)
+   (add-hook 'auto-save-hook 'org-save-all-org-buffers)
+
 #+END_SRC
 
 * Version control
@@ -400,14 +398,15 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :bind ("C-x g" . magit-status)
-    :ensure t
-    )
+    :ensure t)
 #+END_SRC
+
 ** Git Timemachine
 #+BEGIN_SRC emacs-lisp
 (use-package git-timemachine
   :bind ("M-g t" . git-timemachine-toggle))
 #+END_SRC
+
 ** Git Gutter
 #+BEGIN_SRC emacs-lisp
   (use-package git-gutter
@@ -422,6 +421,7 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     :ensure t
     :diminish git-gutter-mode)
 #+END_SRC
+
 ** Smerge
 #+BEGIN_SRC emacs-lisp
 (use-package hydra)
@@ -474,6 +474,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                     (when smerge-mode
                                       (smerge-hydra/body))))))
 #+END_SRC
+
 * Projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -504,8 +505,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 * Programming modes
 ** Which function
+Show the current function name
 #+BEGIN_SRC emacs-lisp
-;; Show the current function name
 (which-function-mode)
 #+END_SRC
 
@@ -579,6 +580,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :ensure t
     :mode "\\.csv$")
 #+END_SRC
+
 * Flyspell
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
