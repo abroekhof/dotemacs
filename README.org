@@ -678,6 +678,44 @@ Show the current function name
   :ensure t)
 #+END_SRC
 
+* Elfeed
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :ensure t
+    :commands (elfeed))
+
+  (use-package elfeed-org
+    :after elfeed
+    :ensure t
+    :config
+    (setq rmh-elfeed-org-files (list "~/.emacs.d/README.org"))
+    (elfeed-org))
+
+#+end_src
+** Blogs                                                             :elfeed:
+*** Music                                                             :music:
+**** https://thequietus.com/feed
+**** http://castthedice.org/feed
+**** [[https://feeds.npr.org/510292/podcast.xml][Tiny Desk]]
+**** Pitchfork                                                    :pitchfork:
+***** https://pitchfork.com/rss/reviews/best/albums/
+***** https://pitchfork.com/rss/reviews/best/reissues/
+***** https://pitchfork.com/rss/reviews/best/tracks/
+***** https://pitchfork.com/rss/reviews/tracks/
+***** https://pitchfork.com/rss/reviews/albums/
+***** https://pitchfork.com/rss/news/
+***** https://pitchfork.com/rss/thepitch/
+***** https://pitchfork.com/rss/features/
+*** News                                                               :news:
+**** http://rss.slashdot.org/Slashdot/slashdotMain
+*** Cooking                                                         :cooking:
+**** https://www.101cookbooks.com/feed
+*** Cycling                                                         :cycling:
+**** Bikepacking                                                :bikepacking:
+***** https://bikepacking.com/feed/
+***** http://bearbonesbikepacking.blogspot.com/feeds/posts/default?alt=rss
+**** https://theradavist.com/feed/
+
 * Custom functions
 ** Copy the current buffer's file path or dired path to `kill-ring'.
 Result is full path.
