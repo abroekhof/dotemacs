@@ -363,18 +363,25 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
   (setq org-log-done 'time)
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+  (setq org-export-backends '(ascii html icalendar latex md odt))
+
   (setq org-default-notes-file "~/DriveFS/My Drive/org/inbox.org")
   (define-key global-map "\C-cc" 'counsel-org-capture)
   (define-key global-map "\C-ca" 'org-agenda)
   (setq org-agenda-files (quote ("~/DriveFS/My Drive/org")))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+      '((calc . t)))
+
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                    (org-agenda-files :maxlevel . 9))))
   (setq org-refile-use-outline-path 'file)
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 
-   (add-hook 'auto-save-hook 'org-save-all-org-buffers)
-
+  (add-hook 'auto-save-hook 'org-save-all-org-buffers)
 #+END_SRC
 
 * Version control
@@ -624,7 +631,6 @@ Show the current function name
 ***** https://pitchfork.com/rss/reviews/best/tracks/
 ***** https://pitchfork.com/rss/reviews/tracks/
 ***** https://pitchfork.com/rss/reviews/albums/
-***** https://pitchfork.com/rss/news/
 ***** https://pitchfork.com/rss/thepitch/
 ***** https://pitchfork.com/rss/features/
 *** News                                                               :news:
@@ -636,6 +642,10 @@ Show the current function name
 ***** https://bikepacking.com/feed/
 ***** http://bearbonesbikepacking.blogspot.com/feeds/posts/default?alt=rss
 **** https://theradavist.com/feed/
+*** Architecture
+**** https://www.darrenbradleyphotography.com//blog-feed.xml
+**** http://www.bldgblog.com/feed/
+**** http://feeds.feedburner.com/Archdaily
 
 * Custom functions
 ** Copy the current buffer's file path or dired path to `kill-ring'.
