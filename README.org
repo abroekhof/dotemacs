@@ -690,3 +690,9 @@ Version 2017-09-01
 #+END_SRC
 
 The end.
+* VTerm
+Requires modifying .bashrc as well, so go to the website to see what the latest is
+#+begin_src emacs-lisp
+  (use-package vterm
+    :ensure t)
+#+end_src
