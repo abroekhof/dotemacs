@@ -384,6 +384,19 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (add-hook 'auto-save-hook 'org-save-all-org-buffers)
 #+END_SRC
 
+** Org exporting
+Prevent underscores from being escaped
+#+begin_src emacs-lisp
+  (setq org-export-with-sub-superscripts '{})
+#+end_src
+
+*** Github-flavored Markdown
+#+begin_src emacs-lisp
+(use-package ox-gfm
+  :ensure t
+  :after (org))
+#+end_src
+
 * Version control
 ** Magit
 #+BEGIN_SRC emacs-lisp
