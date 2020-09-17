@@ -711,5 +711,7 @@ The end.
 Requires modifying .bashrc as well, so go to the website to see what the latest is
 #+begin_src emacs-lisp
   (use-package vterm
-    :ensure t)
+    :ensure t
+:config
+(setq vterm-max-scrollback 100000))
 #+end_src
