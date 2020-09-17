@@ -516,15 +516,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ** Compilation
 #+begin_src emacs-lisp
 (setq shell-file-name "bash")
-(setq shell-command-switch "-ic")
+(setq shell-command-switch "-lc")
 (setq compilation-scroll-output t)
 #+end_src
-
-** Which function
-Show the current function name
-#+BEGIN_SRC emacs-lisp
-(which-function-mode)
-#+END_SRC
 
 ** C/C++
 *** Behavior
