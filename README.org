@@ -64,6 +64,11 @@ Change this to WS-Butler
   (global-auto-revert-mode t)
 #+END_SRC
 
+** Fix C&P quirk in iTerm
+#+begin_src emacs-lisp
+(setq xterm-extra-capabilities '(setSelection))
+#+end_src
+
 * UI settings
 ** Font
 #+BEGIN_SRC emacs-lisp
@@ -192,7 +197,6 @@ Change this to WS-Butler
   (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
   (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 #+END_SRC
-
 
 ** Savehist keeps track of some history
 #+BEGIN_SRC emacs-lisp
