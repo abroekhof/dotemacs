@@ -118,9 +118,9 @@ Change this to WS-Butler
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind (("C-;" . avy-goto-word-or-subword-1))
+  :bind (("C-c j" . avy-goto-word-or-subword-1))
   :config
-  (setq avy-background t))
+  (setq avy-background -1))
 #+END_SRC
 
 ** Switch window
