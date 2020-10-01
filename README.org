@@ -86,12 +86,7 @@ Change this to WS-Butler
 
 ** Use a nice theme
 #+BEGIN_SRC emacs-lisp
-  (use-package spacemacs-common
-    :ensure spacemacs-theme
-    :config (load-theme 'leuven t))
-
-  (use-package helm-themes
-    :ensure t)
+  (load-theme 'leuven t)
 #+END_SRC
 
 ** Turn on blinking cursor
@@ -367,17 +362,36 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
   (setq org-log-done 'time)
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
   (setq org-export-backends '(ascii html icalendar latex md odt))
 
-  (setq org-default-notes-file "~/DriveFS/My Drive/org/inbox.org")
+  (setq org-agenda-files (quote ("~/DriveFS/My Drive/org")))
+  (setq org-default-notes-file "~/DriveFS/My Drive/org/notes.org")
+
   (define-key global-map "\C-cc" 'counsel-org-capture)
   (define-key global-map "\C-ca" 'org-agenda)
-  (setq org-agenda-files (quote ("~/DriveFS/My Drive/org")))
+  (define-key global-map (kbd "C-c C-x C-j") 'org-clock-goto)
+
+  (global-set-key [remap org-set-tags-command] #'counsel-org-tag)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
-      '((calc . t)))
+   '((calc . t)))
+
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
+           "* TODO %?\n%u\n")
+          ("m" "Meeting" entry (file+headline org-default-notes-file "Meetings")
+           "* MEETING %? :meeting:\n%T")
+          ("a" "Append to clocked in" item (clock)) ))
+
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")))
+  (defun log-todo-next-creation-date (&rest ignore)
+    "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
+    (when (and (string= (org-get-todo-state) "NEXT")
+               (not (org-entry-get nil "ACTIVATED")))
+      (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
+  (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
 
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                    (org-agenda-files :maxlevel . 9))))
