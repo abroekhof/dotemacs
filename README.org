@@ -718,8 +718,9 @@ The end.
 * VTerm
 Requires modifying .bashrc as well, so go to the website to see what the latest is
 #+begin_src emacs-lisp
-  (use-package vterm
-    :ensure t
-:config
-(setq vterm-max-scrollback 100000))
+  (if (not (eq system-type 'darwin))
+      (use-package vterm
+        :ensure t
+        :config
+        (setq vterm-max-scrollback 100000)))
 #+end_src
