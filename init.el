@@ -54,3 +54,9 @@
     (git-gutter neotree doom-themes adaptive-wrap zenburn-theme web-mode volatile-highlights virtualenvwrapper use-package undo-tree switch-window smartparens rainbow-delimiters paradox multiple-cursors magit js2-mode helm-themes helm-swoop helm-projectile helm-descbinds helm-ag guide-key flycheck exec-path-from-shell diff-hl csv-mode company-anaconda buffer-move anzu)))
  '(paradox-github-token t)
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

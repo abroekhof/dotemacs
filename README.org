@@ -724,3 +724,27 @@ Requires modifying .bashrc as well, so go to the website to see what the latest 
         :config
         (setq vterm-max-scrollback 100000)))
 #+end_src
+
+* Web Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :mode
+    (
+     ".html?$"
+     ".vue$"
+     )
+    :config
+    (setq
+     web-mode-markup-indent-offset 2
+     web-mode-css-indent-offset 2
+     web-mode-code-indent-offset 2
+     web-mode-enable-auto-closing t
+     web-mode-enable-auto-opening t
+     web-mode-enable-auto-pairing t
+     web-mode-enable-auto-indentation t))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(setq js-indent-level 2)
+#+END_SRC
