@@ -542,38 +542,31 @@ Prevent underscores from being escaped
 
 *** LSP
 #+BEGIN_SRC emacs-lisp
+
   (use-package flycheck
     :ensure t
-    :diminish flycheck-mode
-    :config
-    (add-hook 'after-init-hook #'global-flycheck-mode))
+    :init (global-flycheck-mode))
+
+  (setq lsp-keymap-prefix "C-c l")
 
   (use-package lsp-mode
-    :commands lsp
-    :ensure t)
+    :hook (
+           (c-mode . lsp)
+           (cpp-mode . lsp)
+           (c++-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration))
+    :commands lsp)
 
-  (use-package lsp-ui
-    :requires lsp-mode flycheck)
+  (use-package lsp-ui :commands lsp-ui-mode)
+  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+  (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
-  (use-package company-lsp
-    :ensure t
-    :requires company
+
+  ;; optional if you want which-key integration
+  (use-package which-key
     :config
-    (push 'company-lsp company-backends)
+    (which-key-mode))
 
-    ;; Disable client-side cache because the LSP server does a better job.
-    (setq company-transformers nil
-          company-lsp-async t
-          company-lsp-cache-candidates nil))
-
-  (use-package ccls
-    :ensure t
-    :config
-    (setq ccls-executable "ccls")
-    (setq lsp-prefer-flymake nil)
-    (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-    :hook ((c-mode c++-mode objc-mode) .
-           (lambda () (require 'ccls) (lsp))))
 #+END_SRC
 
 ** Protocol Buffers
