@@ -377,7 +377,9 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
            "* TODO %?\n%u\n")
           ("m" "Meeting" entry (file+headline org-default-notes-file "Meetings")
            "* MEETING %? :meeting:\n%T")
-          ("a" "Append to clocked in" item (clock)) ))
+          ("a" "Append to clocked in" item (clock))
+          ("n" "Note" entry (file+headline org-default-notes-file "Notes")
+           "* NOTE %?\n%U" :empty-lines 1) ))
 
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")))
