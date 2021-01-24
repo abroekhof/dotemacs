@@ -265,7 +265,7 @@ Change this to WS-Butler
    (use-package expand-region
      :ensure t
      :commands er/expand-region
-     :bind ("C-=" . er/expand-region))
+     :bind ("M-2" . er/expand-region))
  #+END_SRC
 
 ** Guide key
