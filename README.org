@@ -370,7 +370,8 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((calc . t)))
+   '((calc . t)
+     (dot . t)))
 
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
