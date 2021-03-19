@@ -359,8 +359,8 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (setq org-log-done 'time)
   (setq org-export-backends '(ascii html icalendar latex md odt))
 
-  (setq org-agenda-files (quote ("~/DriveFS/My Drive/org")))
-  (setq org-default-notes-file "~/DriveFS/My Drive/org/notes.org")
+  (setq org-agenda-files (quote ("~/org")))
+  (setq org-default-notes-file "~/org/notes.org")
 
   (define-key global-map "\C-cc" 'counsel-org-capture)
   (define-key global-map "\C-ca" 'org-agenda)
@@ -398,6 +398,32 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 
   (add-hook 'auto-save-hook 'org-save-all-org-buffers)
+#+END_SRC
+
+** Org Roam
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam
+      :ensure t
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+      (org-roam-directory "~/org/roam")
+      :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-graph))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate))))
+
+(setq org-roam-dailies-directory "daily/")
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n\n")))*"'))')
 #+END_SRC
 
 ** Org exporting
