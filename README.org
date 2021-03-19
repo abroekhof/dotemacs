@@ -596,6 +596,12 @@ Prevent underscores from being escaped
     :mode "\\.csv$")
 #+END_SRC
 
+** RMSBolt
+#+begin_src emacs-lisp
+(use-package rmsbolt
+  :ensure t)
+#+end_src
+
 * Flyspell
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
