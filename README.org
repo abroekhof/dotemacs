@@ -290,7 +290,6 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     (setq highlight-symbol-idle-delay 0.25))
 #+END_SRC
 
-
 * Ivy
 ** Ivy config
 #+BEGIN_SRC emacs-lisp
@@ -417,13 +416,12 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
               (("C-c n I" . org-roam-insert-immediate))))
 
 (setq org-roam-dailies-directory "daily/")
-
 (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
          #'org-roam-capture--get-point
          "* %?"
          :file-name "daily/%<%Y-%m-%d>"
-         :head "#+title: %<%Y-%m-%d>\n\n")))*"'))')
+         :head "#+title: %<%Y-%m-%d>\n\n")))
 #+END_SRC
 
 ** Org exporting
@@ -544,9 +542,10 @@ Prevent underscores from being escaped
   (use-package company
     :ensure t
     :config
-    (setq company-idle-delay 0.3)
-    (global-company-mode 1)
-    (global-set-key (kbd "C-<tab>") 'company-complete))
+    (add-hook 'after-init-hook 'global-company-mode)
+    (setq company-minimum-prefix-length 2)
+    (setq company-idle-delay 0.25)
+    (add-to-list 'company-backends 'company-capf))
 #+END_SRC
 
 * Programming modes
