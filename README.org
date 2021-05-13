@@ -614,6 +614,14 @@ Prevent underscores from being escaped
   (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
 #+END_SRC
 
+** GN files
+#+BEGIN_SRC emacs-lisp
+   (use-package gn-mode
+     :ensure t
+     :config
+     (add-to-list 'auto-mode-alist '("\\.gn\\'" . gn-mode)))
+#+END_SRC
+
 ** CSV
 #+BEGIN_SRC emacs-lisp
   (use-package csv-mode
