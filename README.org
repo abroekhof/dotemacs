@@ -561,9 +561,9 @@ Prevent underscores from being escaped
 *** Behavior
  Use a better indentation for C code.
  #+BEGIN_SRC emacs-lisp
-   (setq c-default-style "linux"
-         c-basic-offset 4)
-   (c-set-offset 'case-label '+)
+   (add-to-list 'load-path "~/.emacs.d/elisp")
+   (require 'google-c-style)
+   (add-hook 'c-mode-common-hook 'google-set-c-style)
  #+END_SRC
 
 *** LSP
