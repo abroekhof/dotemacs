@@ -5,31 +5,23 @@
 ;;; Code:
 ;;; initalize all ELPA packages
 
-::; TODO(abroekhof): Remove this when upgrading to 26.3
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(require 'package)
-(package-initialize)
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
-(eval-when-compile
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package)
-    (package-install 'diminish)
-    (package-install 'bind-key))
-
-  (setq use-package-always-ensure t)
-  (setq use-package-expand-minimally t)
-
-  (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
-
-(use-package org
-  :ensure t)
+(use-package org)
 
 ;; load the org file containing settings
 (org-babel-load-file
