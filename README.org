@@ -11,6 +11,7 @@
      (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
      (setq-default tab-width 8)            ;; but maintain correct appearance
    #+END_SRC
+
 ** Delete the selection with a keypress
 #+BEGIN_SRC emacs-lisp
   (delete-selection-mode t)
@@ -65,14 +66,13 @@ Change this to WS-Butler
 
 ** Fix C&P quirk in iTerm
 #+begin_src emacs-lisp
-(setq xterm-extra-capabilities '(setSelection))
+  (setq xterm-extra-capabilities '(setSelection))
 #+end_src
 
 * UI settings
 ** Font
 #+BEGIN_SRC emacs-lisp
-(if (member "DejaVu Sans Mono" (font-family-list))
-    (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 100))
+  (set-face-attribute 'default nil :family "Roboto Mono" :height 120 :weight 'light)
 #+END_SRC
 
 ** Turn off the scroll bar and the tool bar and the menu bar.
@@ -276,18 +276,8 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 ** Ivy config
 #+BEGIN_SRC emacs-lisp
   (use-package ag)
-
   (use-package wgrep)
-
   (use-package smex)
-
-  (use-package counsel
-
-    :diminish counsel-mode
-    :config
-    (counsel-mode)
-    (setq counsel-grep-base-command
-          "rg -i --no-heading --line-number --color never '%s' %s"))
 
   (use-package ivy
     :diminish ivy-mode
@@ -298,79 +288,90 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
     (global-set-key (kbd "<f6>") 'ivy-resume))
 
+  (use-package counsel
+    :diminish
+    :hook (ivy-mode . counsel-mode)
+    :config
+    (setq counsel-grep-base-command
+          "rg -i --no-heading --line-number --color never '%s' %s")
+    (global-set-key (kbd "M-x") #'counsel-M-x)
+    (global-set-key (kbd "C-s") #'counsel-grep-or-swiper))
+
   (use-package ivy-rich
     :after ivy
     :config
     (progn
       (ivy-rich-mode)))
 
-  (use-package swiper
-    :bind ("C-s" . swiper))
-
   (use-package counsel-projectile
     :config
-    (counsel-projectile-mode))
+    (counsel-projectile-mode +1))
 
-  (use-package counsel-gtags
-    :diminish counsel-gtags-mode
+  (use-package swiper
+    :after ivy
     :config
-    (add-hook 'c-mode-hook 'counsel-gtags-mode)
-    (add-hook 'c++-mode-hook 'counsel-gtags-mode)
-
-    (with-eval-after-load 'counsel-gtags
-      (define-key counsel-gtags-mode-map (kbd "M-t") 'counsel-gtags-find-definition)
-      (define-key counsel-gtags-mode-map (kbd "M-r") 'counsel-gtags-find-reference)
-      (define-key counsel-gtags-mode-map (kbd "M-s") 'counsel-gtags-find-symbol)
-      (define-key counsel-gtags-mode-map (kbd "M-.") 'counsel-gtags-dwim)
-      (define-key counsel-gtags-mode-map (kbd "M-,") 'counsel-gtags-go-backward)))
+    (setq swiper-action-recenter t)
+    (setq swiper-goto-start-of-match t))
 #+END_SRC
 
 * Org settings
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
-  (setq org-log-done 'time)
-  (setq org-export-backends '(ascii html icalendar latex md odt))
 
-  (setq org-agenda-files (quote ("~/org")))
-  (setq org-default-notes-file "~/org/notes.org")
+  (use-package org
+    :hook ((org-mode . visual-line-mode)
+           (org-mode . auto-fill-mode)
+           (org-mode . org-indent-mode))
+    :config
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-log-done 'time)
+    (setq org-export-backends '(ascii html icalendar latex md odt))
 
-  (define-key global-map "\C-cc" 'counsel-org-capture)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (define-key global-map (kbd "C-c C-x C-j") 'org-clock-goto)
+    (setq org-agenda-files (quote ("~/org")))
+    (setq org-default-notes-file "~/org/notes.org")
 
-  (global-set-key [remap org-set-tags-command] #'counsel-org-tag)
+    (define-key global-map "\C-cc" 'counsel-org-capture)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (define-key global-map (kbd "C-c C-x C-j") 'org-clock-goto)
 
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((calc . t)
-     (dot . t)))
+    ;; Resolve open-clocks if idle more than 30 minutes
+    (setq org-clock-idle-time 30)
 
-  (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
-           "* TODO %?\n%u\n")
-          ("m" "Meeting" entry (file+headline org-default-notes-file "Meetings")
-           "* MEETING %? :meeting:\n%T")
-          ("a" "Append to clocked in" item (clock))
-          ("n" "Note" entry (file+headline org-default-notes-file "Notes")
-           "* NOTE %?\n%U" :empty-lines 1) ))
+    (global-set-key [remap org-set-tags-command] #'counsel-org-tag)
 
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")))
-  (defun log-todo-next-creation-date (&rest ignore)
-    "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
-    (when (and (string= (org-get-todo-state) "NEXT")
-               (not (org-entry-get nil "ACTIVATED")))
-      (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
-  (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((calc . t)
+       (dot . t)))
 
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                   (org-agenda-files :maxlevel . 9))))
-  (setq org-refile-use-outline-path 'file)
-  (setq org-outline-path-complete-in-steps nil)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
+             "* TODO %?\n%u\n")
+            ("m" "Meeting" entry (file+headline org-default-notes-file "Meetings")
+             "* MEETING %? :meeting:\n%T")
+            ("a" "Append to clocked in" item (clock))
+            ("n" "Note" entry (file+headline org-default-notes-file "Notes")
+             "* NOTE %?\n%U" :empty-lines 1) ))
 
-  (add-hook 'auto-save-hook 'org-save-all-org-buffers)
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)")))
+    (defun log-todo-next-creation-date (&rest ignore)
+      "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
+      (when (and (string= (org-get-todo-state) "NEXT")
+                 (not (org-entry-get nil "ACTIVATED")))
+        (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
+    (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
+
+    (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                     (org-agenda-files :maxlevel . 9))))
+    (setq org-refile-use-outline-path 'file)
+    (setq org-outline-path-complete-in-steps nil)
+    (setq org-refile-allow-creating-parent-nodes 'confirm))
+
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
+
+    (add-hook 'auto-save-hook 'org-save-all-org-buffers)
 #+END_SRC
 
 ** Org Roam
@@ -509,6 +510,7 @@ Prevent underscores from being escaped
 * Company
 #+BEGIN_SRC emacs-lisp
   (use-package company
+    :diminish
     :config
     (add-hook 'after-init-hook 'global-company-mode)
     (setq company-minimum-prefix-length 2)
@@ -518,11 +520,16 @@ Prevent underscores from being escaped
 
 * Programming modes
 
+** Fill column
+#+begin_src emacs-lisp
+  (setq-default fill-column 80)
+#+end_src
+
 ** Compilation
 #+begin_src emacs-lisp
-(setq shell-file-name "bash")
-(setq shell-command-switch "-lc")
-(setq compilation-scroll-output t)
+  (setq shell-file-name "bash")
+  (setq shell-command-switch "-lc")
+  (setq compilation-scroll-output t)
 #+end_src
 
 ** C/C++
@@ -581,9 +588,8 @@ Prevent underscores from being escaped
 
 ** GN files
 #+BEGIN_SRC emacs-lisp
-   (use-package gn-mode
-     :config
-     (add-to-list 'auto-mode-alist '("\\.gn\\'" . gn-mode)))
+  (use-package gn-mode
+    :mode "\\.gn$")
 #+END_SRC
 
 ** CSV
@@ -707,10 +713,10 @@ The end.
 * VTerm
 Requires modifying .bashrc as well, so go to the website to see what the latest is
 #+begin_src emacs-lisp
-  (if (not (eq system-type 'darwin))
-      (use-package vterm
-        :config
-        (setq vterm-max-scrollback 100000)))
+  (use-package vterm
+    :config
+    (setq vterm-max-scrollback 100000)
+    (setq vterm-shell "/bin/zsh"))
 #+end_src
 
 * Web Mode
@@ -733,7 +739,7 @@ Requires modifying .bashrc as well, so go to the website to see what the latest 
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(setq js-indent-level 2)
+  (setq js-indent-level 2)
 #+END_SRC
 
 * LaTeX
