@@ -436,8 +436,8 @@ Prevent underscores from being escaped
     :diminish
     :config
     (add-hook 'after-init-hook 'global-company-mode)
-    (setq company-minimum-prefix-length 2)
-    (setq company-idle-delay 0.25)
+    (setq company-minimum-prefix-length 1)
+    (setq company-idle-delay 0.15)
     (add-to-list 'company-backends 'company-capf))
 #+END_SRC
 
