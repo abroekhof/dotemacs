@@ -655,6 +655,7 @@ Requires modifying .bashrc as well, so go to the website to see what the latest 
     (
      ".html?$"
      ".vue$"
+     ".tsx$"
      )
     :config
     (setq
