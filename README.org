@@ -72,7 +72,12 @@ Change this to WS-Butler
 * UI settings
 ** Font
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :family "Roboto Mono" :height 120 :weight 'light)
+  (when (member "Iosevka" (font-family-list))
+    (set-face-attribute 'default nil
+                        :family "Iosevka"
+                        :height 130
+                        :weight 'normal
+                        :width 'normal))
 #+END_SRC
 
 ** Turn off the scroll bar and the tool bar and the menu bar.
