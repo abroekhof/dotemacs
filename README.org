@@ -324,7 +324,6 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 
   (use-package org
     :hook ((org-mode . visual-line-mode)
-           (org-mode . auto-fill-mode)
            (org-mode . org-indent-mode))
     :config
     (setq org-src-fontify-natively t)
