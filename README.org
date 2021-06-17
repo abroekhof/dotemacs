@@ -474,9 +474,12 @@ Prevent underscores from being escaped
 *** Behavior
  Use a better indentation for C code.
  #+BEGIN_SRC emacs-lisp
-   (add-to-list 'load-path "~/.emacs.d/elisp")
-   (require 'google-c-style)
-   (add-hook 'c-mode-common-hook 'google-set-c-style)
+      (use-package google-c-style
+        :straight (:type git :host github :repo "google/styleguide"
+                         :files ("google-c-style.el"))
+        :config
+        (add-hook 'c-mode-common-hook 'google-set-c-style)
+        (add-hook 'c-mode-common-hook 'google-make-newline-indent))
  #+END_SRC
 
 *** LSP
