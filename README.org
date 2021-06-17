@@ -72,10 +72,10 @@ Change this to WS-Butler
 * UI settings
 ** Font
 #+BEGIN_SRC emacs-lisp
-  (when (member "Iosevka" (font-family-list))
+  (when (member "Hack" (font-family-list))
     (set-face-attribute 'default nil
-                        :family "Iosevka"
-                        :height 130
+                        :family "Hack"
+                        :height 120
                         :weight 'normal
                         :width 'normal))
 #+END_SRC
