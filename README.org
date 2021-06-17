@@ -268,16 +268,6 @@ Change this to WS-Butler
      :bind ("M-2" . er/expand-region))
  #+END_SRC
 
-** Guide key
-#+BEGIN_SRC emacs-lisp
-  (use-package guide-key
-    :diminish guide-key-mode
-    :init (guide-key-mode 1)
-    :config (setq guide-key/guide-key-sequence
-                  '("C-x"(projectile-mode "C-c p"))
-                  guide-key/recursive-key-sequence-flag t))
-#+END_SRC
-
 ** Highlight symbol
 When you hover on a symbol, it will highlight other occurrences in the buffer.
 #+BEGIN_SRC emacs-lisp
