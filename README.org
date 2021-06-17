@@ -90,7 +90,9 @@ Change this to WS-Butler
 
 ** Use a nice theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'leuven t)
+  (use-package leuven-theme
+    :config
+    (load-theme 'leuven t))
 #+END_SRC
 
 ** Turn on blinking cursor
