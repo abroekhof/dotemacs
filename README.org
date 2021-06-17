@@ -138,7 +138,11 @@ Change this to WS-Butler
 
    (use-package ace-window
      :bind* ("M-o" . ace-window)
-     :init (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+     :init
+     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+     (custom-set-faces
+      '(aw-leading-char-face
+        ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 
    (use-package windmove
      :config (windmove-default-keybindings 'shift))
