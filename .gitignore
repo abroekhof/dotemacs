@@ -1,5 +1,5 @@
-/auto-save-list/
-/elpa/
+/auto-save-list
+/elpa
 /history
 /init.el~
 /places
@@ -21,3 +21,10 @@
 /network-security.data
 /session.*
 /semanticdb
+/straight
+/README.el
+/backup
+/eln-cache
+/transient
+/smex-items
+/.lsp-session-v1
