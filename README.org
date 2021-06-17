@@ -105,6 +105,11 @@ Change this to WS-Butler
   (global-hl-line-mode)
 #+END_SRC
 
+** Enable column numbers
+#+begin_src emacs-lisp
+  (column-number-mode)
+#+end_src
+
 ** Diminish
 #+BEGIN_SRC emacs-lisp
   (use-package diminish)
