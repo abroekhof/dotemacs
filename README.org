@@ -281,43 +281,44 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
 * Ivy
 ** Ivy config
 #+BEGIN_SRC emacs-lisp
-  (use-package ag)
-  (use-package wgrep)
-  (use-package smex)
+    (use-package ag)
+    (use-package wgrep)
+    (use-package amx)
 
-  (use-package ivy
-    :diminish ivy-mode
-    :config
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    (global-set-key (kbd "<f6>") 'ivy-resume))
+    (use-package ivy
+      :diminish ivy-mode
+      :config
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      (setq ivy-count-format "%d/%d ")
+      (setq ivy-height 20)
+      (global-set-key (kbd "C-c C-r") 'ivy-resume))
 
-  (use-package counsel
-    :diminish
-    :hook (ivy-mode . counsel-mode)
-    :config
-    (setq counsel-grep-base-command
-          "rg -i --no-heading --line-number --color never '%s' %s")
-    (global-set-key (kbd "M-x") #'counsel-M-x)
-    (global-set-key (kbd "C-s") #'counsel-grep-or-swiper))
+    (use-package counsel
+      :diminish
+      :after ivy
+      :bind (("C-s" . counsel-grep-or-swiper))
+      :config
+      (counsel-mode)
+      (setq counsel-grep-base-command
+            "rg -i --no-heading --line-number --color never '%s' %s"))
 
-  (use-package ivy-rich
-    :after ivy
-    :config
-    (progn
-      (ivy-rich-mode)))
+    (use-package ivy-rich
+      :after ivy
+      :config
+      (ivy-rich-mode 1)
+      (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
-  (use-package counsel-projectile
-    :config
-    (counsel-projectile-mode +1))
+    (use-package counsel-projectile
+      :config
+      (counsel-projectile-mode +1))
 
-  (use-package swiper
-    :after ivy
-    :config
-    (setq swiper-action-recenter t)
-    (setq swiper-goto-start-of-match t))
+    (use-package swiper
+      :after ivy
+      :config
+      (setq swiper-action-recenter t)
+      (setq swiper-goto-start-of-match t))
 #+END_SRC
 
 * Org settings
