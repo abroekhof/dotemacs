@@ -1,4 +1,9 @@
 * Initialization
+** Everyone does this
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold 100000000)
+#+end_src
+
 ** Make sure Emacs uses the shell PATH
 #+BEGIN_SRC emacs-lisp
   (when (memq window-system '(mac ns))
