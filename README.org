@@ -499,6 +499,7 @@ Try to make text buffers more readable on a big screen
            (c-mode . lsp)
            (cpp-mode . lsp)
            (c++-mode . lsp)
+           ;; (python-mode. lsp-deferred)
            (lsp-mode . lsp-enable-which-key-integration))
     :commands lsp)
 
@@ -506,13 +507,58 @@ Try to make text buffers more readable on a big screen
   (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
   (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
-
-  ;; optional if you want which-key integration
   (use-package which-key
+    :diminish
     :config
     (which-key-mode))
 
 #+END_SRC
+
+** Python
+#+begin_src emacs-lisp
+  (use-package pyvenv
+    :config
+    ;; Setting work on to easily switch between environments
+    (setenv "WORKON_HOME" (expand-file-name "~/.virtualenvs"))
+    ;; Display virtual envs in the menu bar
+    (setq pyvenv-menu t)
+    ;; Restart the python process when switching environments
+    (add-hook 'pyvenv-post-activate-hooks (lambda ()
+                                            (pyvenv-restart-python)))
+    :hook (python-mode . pyvenv-mode))
+
+  (use-package python
+    :config
+    ;; Remove guess indent python message
+    (setq python-indent-guess-indent-offset-verbose nil)
+    ;; Use IPython when available or fall back to regular Python
+    (cond
+     ((executable-find "ipython")
+      (progn
+        (setq python-shell-buffer-name "IPython")
+        (setq python-shell-interpreter "ipython")
+        (setq python-shell-interpreter-args "-i --simple-prompt")))
+     ((executable-find "python3")
+      (setq python-shell-interpreter "python3"))
+     ((executable-find "python2")
+      (setq python-shell-interpreter "python2"))
+     (t
+      (setq python-shell-interpreter "python"))))
+
+  ;; Language server for Python
+  ;; Read the docs for the different variables set in the config.
+  ;; (use-package lsp-pyright
+  ;;   :hook (python-mode . (lambda ()
+  ;;                          (require 'lsp-pyright)
+  ;;                          (lsp)))
+  ;;   :config
+  ;;   (setq lsp-pyright-venv-path "~/.virtualenvs"))
+
+
+  ;; (use-package blacken
+  ;;   :hook (python-mode . blacken-mode))
+
+#+end_src
 
 ** Protocol Buffers
 #+BEGIN_SRC emacs-lisp
