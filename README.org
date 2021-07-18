@@ -53,8 +53,7 @@ Taken from the Spacemacs OSX module
     (setq mac-option-modifier 'meta))
 #+END_SRC
 
-** TODO Whitespace cleanup
-Change this to WS-Butler
+** Whitespace cleanup
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
@@ -118,17 +117,17 @@ Change this to WS-Butler
 ** Rainbow delimiters
 #+BEGIN_SRC emacs-lisp
    (use-package rainbow-delimiters
-     :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+     :hook (prog-mode . rainbow-delimiters-mode)
      :diminish rainbow-delimiters-mode)
 #+END_SRC
 
 * Movement
 ** Avy (navigation)
 #+BEGIN_SRC emacs-lisp
-(use-package avy
-  :bind (("C-c j" . avy-goto-word-or-subword-1))
-  :config
-  (setq avy-background -1))
+  (use-package avy
+    :bind (("C-c j" . avy-goto-word-or-subword-1))
+    :config
+    (setq avy-background -1))
 #+END_SRC
 
 ** Switch window
@@ -193,10 +192,14 @@ Change this to WS-Butler
 
 ** Uniquify
 #+BEGIN_SRC emacs-lisp
-  (setq uniquify-buffer-name-style 'forward)
-  (setq uniquify-separator "/")
-  (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
-  (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+  (use-package uniquify
+    :straight nil
+    :config
+    (setq uniquify-buffer-name-style 'forward)
+    (setq uniquify-separator "/")
+    (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+    (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+    )
 #+END_SRC
 
 ** Savehist keeps track of some history
@@ -222,16 +225,16 @@ Change this to WS-Butler
 #+END_SRC
 
 ** Multiple Cursors
-   #+BEGIN_SRC emacs-lisp
-     (use-package multiple-cursors
-       :init
-       (progn
-         ;; these need to be defined here - if they're lazily loaded with
-         ;; :bind they don't work.
-         (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-         (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-         (global-set-key (kbd "C-c C-l") 'mc/edit-ends-of-lines)))
-   #+END_SRC
+I've gotten more proficient at rectangle mode and macros, so I'm not sure if I still need this mode.
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors
+    :init
+    (progn
+      ;; these need to be defined here - if they're lazily loaded with
+      ;; :bind they don't work.
+      (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+      (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)))
+#+END_SRC
 
 ** Crux
 =crux= has useful functions extracted from Emacs Prelude. Set =C-a= to move to the first non-whitespace character on a line, and then to toggle between that and the beginning of the line.
@@ -337,12 +340,12 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     (setq org-agenda-files (quote ("~/org")))
     (setq org-default-notes-file "~/org/notes.org")
 
-    (define-key global-map "\C-cc" 'counsel-org-capture)
-    (define-key global-map "\C-ca" 'org-agenda)
+    (define-key global-map (kbd "C-c c") 'counsel-org-capture)
+    (define-key global-map (kbd "C-c a") 'org-agenda)
     (define-key global-map (kbd "C-c C-x C-j") 'org-clock-goto)
 
-    ;; Resolve open-clocks if idle more than 30 minutes
-    (setq org-clock-idle-time 30)
+    ;; Resolve open-clocks if idle
+    (setq org-clock-idle-time 10)
 
     (global-set-key [remap org-set-tags-command] #'counsel-org-tag)
 
@@ -374,12 +377,13 @@ When you hover on a symbol, it will highlight other occurrences in the buffer.
     (setq org-refile-use-outline-path 'file)
     (setq org-outline-path-complete-in-steps nil)
     (setq org-refile-allow-creating-parent-nodes 'confirm))
+#+END_SRC
 
+** org-bullets
+#+begin_src emacs-lisp
   (use-package org-bullets
     :hook (org-mode . org-bullets-mode))
-
-    (add-hook 'auto-save-hook 'org-save-all-org-buffers)
-#+END_SRC
+#+end_src
 
 ** Org exporting
 Prevent underscores from being escaped
@@ -394,19 +398,21 @@ Prevent underscores from being escaped
 #+end_src
 
 ** Olivetti mode
-Try to make org buffers more readable on a big screen
+Try to make text buffers more readable on a big screen
 #+begin_src emacs-lisp
   (use-package olivetti
     :hook (text-mode . olivetti-mode)
     :config
-    (setq olivetti-body-width 120))
+    (setq-default olivetti-body-width 120))
 #+end_src
 
 * Version control
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :bind ("C-x g" . magit-status))
+    :bind ("C-x g" . magit-status)
+    :config
+    (setq git-commit-fill-column 70))
 #+END_SRC
 
 ** Git Timemachine
@@ -439,8 +445,7 @@ Try to make org buffers more readable on a big screen
     :config (progn
               (setq projectile-completion-system 'ivy)
               (setq projectile-switch-project-action 'counsel-projectile)
-              (projectile-global-mode t)
-              )
+              (projectile-global-mode t))
     :init      (progn
                  (setq projectile-indexing-method     'alien
                        projectile-enable-caching      t)))
@@ -525,7 +530,9 @@ Try to make org buffers more readable on a big screen
 
 ** Makefiles
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
+  ;; (use-package makefile-mode
+  ;;   :straight nil
+  ;;   :mode "\\.mak\\")
 #+END_SRC
 
 ** GN files
@@ -659,7 +666,11 @@ Requires modifying .bashrc as well, so go to the website to see what the latest 
     :config
     (setq vterm-max-scrollback 100000)
     (setq vterm-shell "/bin/zsh"))
+#+end_src
 
+** multi-vterm
+This seems to now be required to start up multiple vterm instances?
+#+begin_src emacs-lisp
   (use-package multi-vterm)
 #+end_src
 
