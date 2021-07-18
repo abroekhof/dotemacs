@@ -595,6 +595,9 @@ Try to make text buffers more readable on a big screen
 ** RMSBolt
 #+begin_src emacs-lisp
 (use-package rmsbolt)
+** Go
+#+begin_src emacs-lisp
+  (use-package go-mode)
 #+end_src
 
 * Flyspell
