@@ -456,6 +456,7 @@ Try to make text buffers more readable on a big screen
     :diminish
     :config
     (add-hook 'after-init-hook 'global-company-mode)
+    (setq company-dabbrev-downcase nil)
     (setq company-minimum-prefix-length 1)
     (setq company-idle-delay 0.15)
     (add-to-list 'company-backends 'company-capf))
