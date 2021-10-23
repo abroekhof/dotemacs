@@ -534,48 +534,19 @@ Try to make text buffers more readable on a big screen
 
 ** Python
 #+begin_src emacs-lisp
+  (use-package python-mode
+    :custom
+    (python-shell-interpreter "python3"))
+
+  (use-package lsp-pyright
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-pyright)
+                           (lsp))))  ; or lsp-deferred
+
   (use-package pyvenv
+    :after python-mode
     :config
-    ;; Setting work on to easily switch between environments
-    (setenv "WORKON_HOME" (expand-file-name "~/.virtualenvs"))
-    ;; Display virtual envs in the menu bar
-    (setq pyvenv-menu t)
-    ;; Restart the python process when switching environments
-    (add-hook 'pyvenv-post-activate-hooks (lambda ()
-                                            (pyvenv-restart-python)))
-    :hook (python-mode . pyvenv-mode))
-
-  (use-package python
-    :config
-    ;; Remove guess indent python message
-    (setq python-indent-guess-indent-offset-verbose nil)
-    ;; Use IPython when available or fall back to regular Python
-    (cond
-     ((executable-find "ipython")
-      (progn
-        (setq python-shell-buffer-name "IPython")
-        (setq python-shell-interpreter "ipython")
-        (setq python-shell-interpreter-args "-i --simple-prompt")))
-     ((executable-find "python3")
-      (setq python-shell-interpreter "python3"))
-     ((executable-find "python2")
-      (setq python-shell-interpreter "python2"))
-     (t
-      (setq python-shell-interpreter "python"))))
-
-  ;; Language server for Python
-  ;; Read the docs for the different variables set in the config.
-  ;; (use-package lsp-pyright
-  ;;   :hook (python-mode . (lambda ()
-  ;;                          (require 'lsp-pyright)
-  ;;                          (lsp)))
-  ;;   :config
-  ;;   (setq lsp-pyright-venv-path "~/.virtualenvs"))
-
-
-  ;; (use-package blacken
-  ;;   :hook (python-mode . blacken-mode))
-
+    (pyvenv-mode 1))
 #+end_src
 
 ** Protocol Buffers
