@@ -1,7 +1,9 @@
 * Initialization
-** Everyone does this
+** Performance improvements
+Taken from https://emacs-lsp.github.io/lsp-mode/page/performance/ to improve LSP performance.
 #+begin_src emacs-lisp
   (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
 #+end_src
 
 ** Make sure Emacs uses the shell PATH
@@ -506,18 +508,29 @@ Try to make text buffers more readable on a big screen
  #+END_SRC
 
 *** LSP
+Note that LSP basically only works for my work environment, and emacs must be started from a shell with the proper env variables set.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :init (global-flycheck-mode))
 
-  (setq lsp-keymap-prefix "C-c l")
-
   (use-package lsp-mode
-    :hook (
-           (c-mode . lsp)
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :custom
+    (lsp-clients-clangd-args
+     (list "--header-insertion-decorators=0"
+           (substitute-env-vars
+            "--query-driver=$PW_PROJECT_ROOT/.environment/cipd/pigweed/bin/*")
+           (substitute-env-vars
+            "--compile-commands-dir=$PW_PROJECT_ROOT/out")
+           "--background-index"
+           "--log=verbose"
+           "--clang-tidy"))
+    (lsp-clients-clangd-executable
+     (substitute-env-vars "$PW_PROJECT_ROOT/.environment/cipd/pigweed/bin/clangd"))
+    :hook ((c-mode . lsp)
            (cpp-mode . lsp)
            (c++-mode . lsp)
-           ;; (python-mode. lsp-deferred)
            (lsp-mode . lsp-enable-which-key-integration))
     :commands lsp)
 
@@ -541,7 +554,7 @@ Try to make text buffers more readable on a big screen
   (use-package lsp-pyright
     :hook (python-mode . (lambda ()
                            (require 'lsp-pyright)
-                           (lsp))))  ; or lsp-deferred
+                           (lsp))))
 
   (use-package pyvenv
     :after python-mode
