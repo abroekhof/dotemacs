@@ -572,7 +572,7 @@ Try to make text buffers more readable on a big screen
 ** GN files
 #+BEGIN_SRC emacs-lisp
   (use-package gn-mode
-    :mode "\\.gn$")
+    :mode "\\.gni*$")
 #+END_SRC
 
 ** CSV
