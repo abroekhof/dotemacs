@@ -126,10 +126,11 @@ Taken from the Spacemacs OSX module
 * Movement
 ** Avy (navigation)
 #+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :bind (("C-c j" . avy-goto-word-or-subword-1))
-    :config
-    (setq avy-background -1))
+    (use-package avy
+      :bind (("C-c j" . avy-goto-char-timer)
+             ("M-g g" . avy-goto-line))
+      :config
+      (setq avy-background -1))
 #+END_SRC
 
 ** Switch window
