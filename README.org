@@ -563,6 +563,8 @@ Note that LSP basically only works for my work environment, and emacs must be st
     :after python-mode
     :config
     (pyvenv-mode 1))
+
+  (use-package blacken)
 #+end_src
 
 ** Protocol Buffers
