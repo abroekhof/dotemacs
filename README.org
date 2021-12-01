@@ -430,6 +430,8 @@ Try to make text buffers more readable on a big screen
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :bind ("C-x g" . magit-status)
+    :init
+    (setq magit-diff-refine-hunk t)
     :config
     (setq git-commit-fill-column 70))
 #+END_SRC
