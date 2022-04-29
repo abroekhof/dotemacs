@@ -2,8 +2,17 @@
 ** Performance improvements
 Taken from https://emacs-lsp.github.io/lsp-mode/page/performance/ to improve LSP performance.
 #+begin_src emacs-lisp
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  ;; Prevent stale elisp bytecode from shadowing more up-to-date source files
+(setq load-prefer-newer t)
+
+;; Increase warning threshold
+(setq large-file-warning-threshold (* 64 1000000))
+
+;; Set undo limit to 64 MB
+(setq undo-outer-limit (* 64 1000000))
+
+;; Increase the amount of data which Emacs reads from subprocesses
+(setq read-process-output-max (* 1024 1024)) ; 1 MB
 #+end_src
 
 ** Make sure Emacs uses the shell PATH
