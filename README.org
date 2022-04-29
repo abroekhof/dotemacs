@@ -448,24 +448,10 @@ Try to make text buffers more readable on a big screen
     (setq git-commit-fill-column 70))
 #+END_SRC
 
-** Git Timemachine
-#+BEGIN_SRC emacs-lisp
-(use-package git-timemachine
-  :bind ("M-g t" . git-timemachine-toggle))
-#+END_SRC
-
 ** Git Gutter
 #+BEGIN_SRC emacs-lisp
-  (use-package git-gutter
-    :commands (global-git-gutter-mode git-gutter-mode)
-    :init
-    (progn
-      (global-git-gutter-mode t)
-      (setq git-gutter:modified-sign "|"
-            git-gutter:added-sign "+"
-            git-gutter:deleted-sign "-"
-            git-gutter:hide-gutter t))
-    :diminish git-gutter-mode)
+  (use-package diff-hl
+    :hook (prog-mode . diff-hl-mode))
 #+END_SRC
 
 * Projectile
