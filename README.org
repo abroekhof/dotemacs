@@ -137,6 +137,16 @@ Taken from the Spacemacs OSX module
      :diminish rainbow-delimiters-mode)
 #+END_SRC
 
+** Which Key
+#+begin_src emacs-lisp
+  (use-package which-key
+  :demand t
+  :config
+  (progn
+    (which-key-setup-side-window-right)
+    (which-key-mode)))
+#+end_src
+
 * Movement
 ** Avy (navigation)
 #+BEGIN_SRC emacs-lisp
