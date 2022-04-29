@@ -592,7 +592,18 @@ Try to make text buffers more readable on a big screen
 #+END_SRC
 
 * Programming modes
+** Treesitter
+#+begin_src emacs-lisp
+  (use-package tree-sitter
+    :ensure t
+    :hook
+    (tree-sitter-after-on . tree-sitter-hl-mode)
+    :config
+    (global-tree-sitter-mode))
 
+  (use-package tree-sitter-langs
+    :ensure t)
+#+end_src
 ** Fill column
 #+begin_src emacs-lisp
   (setq-default fill-column 80)
