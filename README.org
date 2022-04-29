@@ -611,11 +611,6 @@ Note that LSP basically only works for my work environment, and emacs must be st
     :mode "\\.csv$")
 #+END_SRC
 
-** RMSBolt
-#+begin_src emacs-lisp
-  (use-package rmsbolt)
-#+end_src
-
 ** Go
 #+begin_src emacs-lisp
   (use-package go-mode)
