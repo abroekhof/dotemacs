@@ -522,41 +522,18 @@ Try to make text buffers more readable on a big screen
         (add-hook 'c-mode-common-hook 'google-make-newline-indent))
  #+END_SRC
 
-*** LSP
+*** Eglot
 Note that LSP basically only works for my work environment, and emacs must be started from a shell with the proper env variables set.
 #+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :init (global-flycheck-mode))
-
-  (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :custom
-    (lsp-clients-clangd-args
-     (list "--header-insertion-decorators=0"
-           (substitute-env-vars
-            "--query-driver=$PW_PROJECT_ROOT/.environment/cipd/pigweed/bin/*")
-           (substitute-env-vars
-            "--compile-commands-dir=$PW_PROJECT_ROOT/out")
-           "--background-index"
-           "--log=verbose"
-           "--clang-tidy"))
-    (lsp-clients-clangd-executable
-     (substitute-env-vars "$PW_PROJECT_ROOT/.environment/cipd/pigweed/bin/clangd"))
-    :hook ((c-mode . lsp)
-           (cpp-mode . lsp)
-           (c++-mode . lsp)
-           (lsp-mode . lsp-enable-which-key-integration))
-    :commands lsp)
-
-  (use-package lsp-ui :commands lsp-ui-mode)
-  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-  (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-  (use-package which-key
-    :diminish
-    :config
-    (which-key-mode))
+  (use-package flymake)
+  (use-package eglot
+        :ensure t
+        :commands (eglot eglot-ensure)
+        :hook ((c-mode . eglot-ensure)
+               (c++-mode . eglot-ensure))
+        :config
+        (add-to-list 'eglot-server-programs '((c-mode c++-mode) . ("~/hearables/a10a20/.environment/cipd/packages/pigweed/bin/clangd" "--compile-commands-dir=/Users/abroekhof/hearables/a10a20/out" "--query-driver=/Users/abroekhof/hearables/a10a20/.environment/cipd/packages/**/*"
+                                                                   "--background-index" "--log=verbose" "--clang-tidy"))))
 
 #+END_SRC
 
@@ -565,11 +542,6 @@ Note that LSP basically only works for my work environment, and emacs must be st
   (use-package python-mode
     :custom
     (python-shell-interpreter "python3"))
-
-  (use-package lsp-pyright
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-pyright)
-                           (lsp))))
 
   (use-package pyvenv
     :after python-mode
