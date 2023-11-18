@@ -143,7 +143,7 @@ Taken from the Spacemacs OSX module
   :demand t
   :config
   (progn
-    (which-key-setup-side-window-right)
+    (which-key-setup-side-window-bottom)
     (which-key-mode)))
 #+end_src
 
@@ -275,6 +275,7 @@ Taken from the Spacemacs OSX module
      :diminish undo-tree-mode
      :init (progn(setq undo-tree-visualizer-diff t
                        undo-tree-visualizer-timestamps t)
+                 (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
                  (global-undo-tree-mode)))
  #+END_SRC
 
@@ -351,111 +352,121 @@ Enable richer annotations using the Marginalia package
 
 ** Consult
 #+begin_src emacs-lisp
-  (use-package consult
-  ;; Replace bindings. Lazily loaded due by `use-package'.
-  :bind (;; C-c bindings (mode-specific-map)
-         ("C-c h" . consult-history)
-         ("C-c m" . consult-mode-command)
-         ("C-c k" . consult-kmacro)
-         ;; C-x bindings (ctl-x-map)
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ([remap switch-to-buffer] . consult-buffer)
-         ([remap switch-to-buffer-other-window] . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ([remap switch-to-buffer-other-frame] . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ([remap bookmark-jump] . consult-bookmark)            ;; orig. bookmark-jump
-         ([remap project-switch-to-buffer] . consult-project-buffer)      ;; orig. project-switch-to-buffer
-         ;; Custom M-# bindings for fast register access
-         ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-         ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ([remap yank-pop] . consult-yank-pop)                ;; orig. yank-pop
-         ("<help> a" . consult-apropos)            ;; orig. apropos-command
-         ;; M-g bindings (goto-map)
-         ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-         ("M-g m" . consult-mark)
-         ("M-g k" . consult-global-mark)
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings (search-map)
-         ("M-s d" . consult-find)
-         ("M-s D" . consult-locate)
-         ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
-         ([remap project-find-regexp] . consult-ripgrep)
-         ("C-s" . consult-line)
-         ("M-s L" . consult-line-multi)
-         ("M-s m" . consult-multi-occur)
-         ("M-s k" . consult-keep-lines)
-         ("M-s u" . consult-focus-lines)
-         ;; Isearch integration
-         ("M-s e" . consult-isearch-history)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
-         :map minibuffer-local-map
-         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+    (use-package consult
+    ;; Replace bindings. Lazily loaded due by `use-package'.
+    :bind (;; C-c bindings (mode-specific-map)
+           ("C-c h" . consult-history)
+           ("C-c m" . consult-mode-command)
+           ("C-c k" . consult-kmacro)
+           ;; C-x bindings (ctl-x-map)
+           ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+           ([remap switch-to-buffer] . consult-buffer)
+           ([remap switch-to-buffer-other-window] . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+           ([remap switch-to-buffer-other-frame] . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+           ([remap bookmark-jump] . consult-bookmark)            ;; orig. bookmark-jump
+           ([remap project-switch-to-buffer] . consult-project-buffer)      ;; orig. project-switch-to-buffer
+           ;; Custom M-# bindings for fast register access
+           ("M-#" . consult-register-load)
+           ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+           ("C-M-#" . consult-register)
+           ;; Other custom bindings
+           ([remap yank-pop] . consult-yank-pop)                ;; orig. yank-pop
+           ("<help> a" . consult-apropos)            ;; orig. apropos-command
+           ;; M-g bindings (goto-map)
+           ("M-g e" . consult-compile-error)
+           ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+           ("M-g g" . consult-goto-line)             ;; orig. goto-line
+           ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+           ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+           ("M-g m" . consult-mark)
+           ("M-g k" . consult-global-mark)
+           ("M-g i" . consult-imenu)
+           ("M-g I" . consult-imenu-multi)
+           ;; M-s bindings (search-map)
+           ("M-s d" . consult-find)
+           ("M-s D" . consult-locate)
+           ("M-s g" . consult-grep)
+           ("M-s G" . consult-git-grep)
+           ([remap project-find-regexp] . consult-ripgrep)
+           ("C-s" . consult-line)
+           ("M-s L" . consult-line-multi)
+           ("M-s m" . consult-multi-occur)
+           ("M-s k" . consult-keep-lines)
+           ("M-s u" . consult-focus-lines)
+           ;; Isearch integration
+           ("M-s e" . consult-isearch-history)
+           :map isearch-mode-map
+           ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+           ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+           ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+           ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+           ;; Minibuffer history
+           :map minibuffer-local-map
+           ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+           ("M-r" . consult-history))                ;; orig. previous-matching-history-element
 
-  ;; Enable automatic preview at point in the *Completions* buffer. This is
-  ;; relevant when you use the default completion UI.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
+    ;; Enable automatic preview at point in the *Completions* buffer. This is
+    ;; relevant when you use the default completion UI.
+    :hook (completion-list-mode . consult-preview-at-point-mode)
 
-  ;; The :init configuration is always executed (Not lazy)
-  :init
+    ;; The :init configuration is always executed (Not lazy)
+    :init
 
-  ;; Optionally configure the register formatting. This improves the register
-  ;; preview for `consult-register', `consult-register-load',
-  ;; `consult-register-store' and the Emacs built-ins.
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
+    ;; Optionally configure the register formatting. This improves the register
+    ;; preview for `consult-register', `consult-register-load',
+    ;; `consult-register-store' and the Emacs built-ins.
+    (setq register-preview-delay 0.5
+          register-preview-function #'consult-register-format)
 
-  ;; Optionally tweak the register preview window.
-  ;; This adds thin lines, sorting and hides the mode line of the window.
-  (advice-add #'register-preview :override #'consult-register-window)
+    ;; Optionally tweak the register preview window.
+    ;; This adds thin lines, sorting and hides the mode line of the window.
+    (advice-add #'register-preview :override #'consult-register-window)
 
-  ;; Optionally replace `completing-read-multiple' with an enhanced version.
-  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
+    ;; Optionally replace `completing-read-multiple' with an enhanced version.
+    (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
 
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
+    ;; Use Consult to select xref locations with preview
+    (setq xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
 
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
-  :config
+    ;; Configure other variables and modes in the :config section,
+    ;; after lazily loading the package.
+    :config
 
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key (kbd "M-."))
-  ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
-  (consult-customize
-   consult-theme
-   :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-recent-file
-   consult--source-project-recent-file
-   :preview-key (kbd "M-."))
+    ;; Optionally configure preview. The default value
+    ;; is 'any, such that any key triggers the preview.
+    ;; (setq consult-preview-key 'any)
+    ;; (setq consult-preview-key (kbd "M-."))
+    ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
+    ;; For some commands and buffer sources it is useful to configure the
+    ;; :preview-key on a per-command basis using the `consult-customize' macro.
+    (consult-customize
+     consult-theme
+     :preview-key '(:debounce 0.2 any)
+     consult-ripgrep consult-git-grep consult-grep
+     consult-bookmark consult-recent-file consult-xref
+     consult--source-bookmark consult--source-recent-file
+     consult--source-project-recent-file
+     :preview-key (kbd "M-."))
 
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
+    (consult-customize
+     consult-line
+     :add-history (seq-some #'thing-at-point '(region symbol)))
 
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
-)
+    (defalias 'consult-line-thing-at-point 'consult-line)
+
+    (consult-customize
+     consult-line-thing-at-point
+     :initial (thing-at-point 'symbol))
+
+    ;; Optionally configure the narrowing key.
+    ;; Both < and C-+ work reasonably well.
+    (setq consult-narrow-key "<") ;; (kbd "C-+")
+
+    ;; Optionally make narrowing help available in the minibuffer.
+    ;; You may want to use `embark-prefix-help-command' or which-key instead.
+    ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+  )
 #+end_src
 
 * Org settings
@@ -470,8 +481,9 @@ Enable richer annotations using the Marginalia package
     (setq org-log-done 'time)
     (setq org-export-backends '(ascii html icalendar latex md odt))
 
-    (setq org-agenda-files (quote ("~/org")))
-    (setq org-default-notes-file "~/org/notes.org")
+    (setq org-directory "~/notes")
+    (setq org-agenda-files (quote ("~/notes")))
+    (setq org-default-notes-file "~/notes/inbox.org")
 
     (define-key global-map (kbd "C-c c") 'counsel-org-capture)
     (define-key global-map (kbd "C-c a") 'org-agenda)
@@ -511,7 +523,23 @@ Enable richer annotations using the Marginalia package
     (setq org-outline-path-complete-in-steps nil)
     (setq org-refile-allow-creating-parent-nodes 'confirm))
 #+END_SRC
-
+** org-download
+#+begin_src emacs-lisp
+  (use-package org-download
+    :after org
+    :defer nil
+    :custom
+    (org-download-method 'directory)
+    (org-download-image-dir "images")
+    (org-download-heading-lvl nil)
+    (org-download-timestamp "%Y%m%d-%H%M%S_")
+    (org-image-actual-width 300)
+    (org-download-screenshot-method "/usr/local/bin/pngpaste %s")
+    :bind
+    ("C-M-y" . org-download-screenshot)
+    :config
+    (require 'org-download))
+#+end_src
 ** org-bullets
 #+begin_src emacs-lisp
   (use-package org-bullets
@@ -533,18 +561,28 @@ Prevent underscores from being escaped
 ** Org Roam
 #+begin_src emacs-lisp
   (use-package org-roam
-      :custom
-      (org-roam-directory (file-truename "~/org/roam"))
-      :bind (("C-c n l" . org-roam-buffer-toggle)
-             ("C-c n f" . org-roam-node-find)
-             ("C-c n g" . org-roam-graph)
-             ("C-c n i" . org-roam-node-insert)
-             ("C-c n c" . org-roam-capture)
-             ;; Dailies
-             ("C-c n j" . org-roam-dailies-capture-today))
-      :config
-      (setq org-roam-v2-ack t)
-      (org-roam-setup))
+    :ensure t
+    :init
+    (setq org-roam-v2-ack t)
+    :custom
+    (org-roam-directory "~/mineral/notes")
+    (org-roam-completion-everywhere t)
+    (org-roam-dailies-capture-templates
+     '(("d" "default" entry "* %<%I:%M %p>: %?"
+        :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n i" . org-roam-node-insert)
+           :map org-mode-map
+           ("C-M-i" . completion-at-point)
+           :map org-roam-dailies-map
+           ("Y" . org-roam-dailies-capture-yesterday)
+           ("T" . org-roam-dailies-capture-tomorrow))
+    :bind-keymap
+    ("C-c n d" . org-roam-dailies-map)
+    :config
+    (require 'org-roam-dailies) ;; Ensure the keymap is available
+    (org-roam-db-autosync-mode))
 #+end_src
 
 ** Olivetti mode
@@ -575,8 +613,16 @@ Try to make text buffers more readable on a big screen
 
 * Project
 #+begin_src emacs-lisp
+  ;; Returns the parent directory containing a .project.el file, if any,
+  ;; to override the standard project.el detection logic when needed.
+  (defun zkj-project-override (dir)
+    (let ((override (locate-dominating-file dir ".projectile")))
+      (if override
+          (cons 'vc override)
+        nil)))
+
   (use-package project
-  :bind-keymap ("C-x p" . project-prefix-map))
+    :bind-keymap ("C-x p" . project-prefix-map))
 #+end_src
 
 * Company
@@ -636,10 +682,7 @@ Note that LSP basically only works for my work environment, and emacs must be st
         :ensure t
         :commands (eglot eglot-ensure)
         :hook ((c-mode . eglot-ensure)
-               (c++-mode . eglot-ensure))
-        :config
-        (add-to-list 'eglot-server-programs '((c-mode c++-mode) . ("~/hearables/a10a20/.environment/cipd/packages/pigweed/bin/clangd" "--compile-commands-dir=/Users/abroekhof/hearables/a10a20/out" "--query-driver=/Users/abroekhof/hearables/a10a20/.environment/cipd/packages/**/*"
-                                                                   "--background-index" "--log=verbose" "--clang-tidy"))))
+               (c++-mode . eglot-ensure)))
 
 #+END_SRC
 
@@ -649,12 +692,12 @@ Note that LSP basically only works for my work environment, and emacs must be st
     :custom
     (python-shell-interpreter "python3"))
 
-  (use-package pyvenv
-    :after python-mode
-    :config
-    (pyvenv-mode 1))
+    (use-package pyvenv
+      :after python-mode
+      :config
+      (pyvenv-mode 1))
 
-  (use-package blacken)
+    (use-package blacken)
 #+end_src
 
 ** Protocol Buffers
